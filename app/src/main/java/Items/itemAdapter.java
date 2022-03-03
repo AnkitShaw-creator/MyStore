@@ -1,9 +1,8 @@
-package items;
+package Items;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,9 +15,9 @@ import java.util.ArrayList;
 
 public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder> {
 
-    private ArrayList<Items> i;
+    private ArrayList<items> i;
     private onItemListener mListener;
-    public  itemAdapter(ArrayList<Items> i, onItemListener itemListener){
+    public  itemAdapter(ArrayList<items> i, onItemListener itemListener){
         this.i = i;
         this.mListener = itemListener;
     }
@@ -32,9 +31,9 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-            Items currentItem = i.get(position);
+            items currentItem = i.get(position);
 
-            holder.itemImage.setImageResource(currentItem.getImage());
+            holder.itemImage.setImageResource(R.drawable.ic_icon_order);
             holder.itemName.setText(currentItem.getTitle());
             holder.itemDescription.setText(currentItem.getDescription());
     }

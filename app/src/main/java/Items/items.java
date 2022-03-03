@@ -1,18 +1,17 @@
-package items;
+package Items;
 
-public class Items {
+public class items {
     private int image;
     private String title, description, price, quantity;
 
-    public Items(){}
+    public items(){}
 
-    public Items(int image, String name, String description) {
-        this.image = image;
-        this.title = name;
+
+    public items(String title, String description, String price, String quantity ) {
+        this.title = title;
         this.description = description;
-    }
-
-    public Items(int ic_icon_order, Items value) {
+        this.price = price;
+        this.quantity = quantity;
     }
 
     public int getImage() {

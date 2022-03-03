@@ -68,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(boolean b) {
         if(b){
             Intent contentActivity = new Intent(LoginActivity.this, ContentActivity.class);
+            contentActivity.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(contentActivity);
             finish();
         }
