@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1060274811516",
+    "project_id": "deft-apparatus-339005",
+    "storage_bucket": "deft-apparatus-339005.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060274811516:android:2943bd95b1add0b1d40ff9",
+        "android_client_info": {
+          "package_name": "com.example.mystore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060274811516-v7b84jp6b13ltna1hbrn8n62pujdtb02.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.mystore",
+            "certificate_hash": "6a3f0dd2b9db2dd883b674f5d6d096bf545b9fbf"
+          }
+        },
+        {
+          "client_id": "1060274811516-uciseknkirr0m42b4t3at13ul3pkttt5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDATg6xznwoVSOKxs3g6cSowFhntpbSpIk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060274811516-uciseknkirr0m42b4t3at13ul3pkttt5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
