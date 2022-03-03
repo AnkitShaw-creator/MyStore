@@ -1,21 +1,15 @@
 package Items;
 
 public class items {
-    private int image;
     private String title, description, price, quantity;
 
     public items(){}
 
-
-    public items(String title, String description, String price, String quantity ) {
-        this.title = title;
+    public items(String description, String price, String quantity,String title ) {
         this.description = description;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    public int getImage() {
-        return image;
+        this.title = title;
     }
 
     public String getTitle() {
@@ -41,11 +35,6 @@ public class items {
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
 
     public String getDescription() {
         return description;

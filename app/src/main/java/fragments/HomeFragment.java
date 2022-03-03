@@ -3,6 +3,7 @@ package fragments;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.mystore.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -65,22 +67,26 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         ref.child("items").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
-                items newItem = snapshot.getValue(items.class);
-                Log.d(LOG_TAG, "onDataChange: item received");
-                itemList.add(newItem);
+
+                for(DataSnapshot itemShot: snapshot.getChildren()) {
+                    Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                    items newItem = itemShot.getValue(items.class);
+                    Log.d(LOG_TAG, "onDataChange: item received");
+                    itemList.add(newItem);
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Item  not added", Toast.LENGTH_SHORT).show();
+                Log.e(LOG_TAG, "onCancelled: ", error.toException());
             }
         });
-        /*ref.addChildEventListener(new ChildEventListener() {
+        ref.child("items").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
-                Items newItem = snapshot.getValue(Items.class);
+                items newItem = snapshot.getValue(items.class);
                 itemList.add(newItem);
             }
 
@@ -102,7 +108,7 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
-        });*/
+        });
 
         mAdapter = new itemAdapter(itemList, this);
         ItemList.setAdapter(mAdapter);
