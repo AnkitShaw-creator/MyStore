@@ -1,5 +1,6 @@
 package Items;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder> {
 
+    private static final String LOG_TAG = "itemAdapter";
     private ArrayList<items> i;
     private onItemListener mListener;
     public  itemAdapter(ArrayList<items> i, onItemListener itemListener){
@@ -31,11 +33,11 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
-            items currentItem = i.get(position);
-
-            holder.itemImage.setImageResource(R.drawable.ic_icon_order);
-            holder.itemName.setText(currentItem.getTitle());
-            holder.itemDescription.setText(currentItem.getDescription());
+        items currentItem = i.get(position);
+        Log.i(LOG_TAG, "onBindViewHolder: "+currentItem.getQuantity());
+        holder.itemImage.setImageResource(R.drawable.ic_icon_order);
+        holder.itemName.setText(currentItem.getTitle());
+        holder.itemDescription.setText(currentItem.getDescription());
     }
 
 

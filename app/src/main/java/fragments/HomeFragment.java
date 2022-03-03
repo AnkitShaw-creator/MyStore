@@ -25,8 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-import Items.items;
 import Items.itemAdapter;
+import Items.items;
 
 
 public class HomeFragment extends Fragment  implements itemAdapter.onItemListener {
@@ -50,10 +50,10 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
+        database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
+        //added the URl of the database location as was getting a warning of database being in a different region
 
         DatabaseReference ref = database.getReference();
-
 
         ItemList = view.findViewById(R.id.content_list);
         ItemList.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -64,35 +64,21 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item3", "Small description of the item3"));
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item4", "Small description of the item4"));
 
-        ref.child("items").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                for(DataSnapshot itemShot: snapshot.getChildren()) {
-                    Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
-                    items newItem = itemShot.getValue(items.class);
-                    Log.d(LOG_TAG, "onDataChange: item received");
-                    itemList.add(newItem);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Item  not added", Toast.LENGTH_SHORT).show();
-                Log.e(LOG_TAG, "onCancelled: ", error.toException());
-            }
-        });
         ref.child("items").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
                 items newItem = snapshot.getValue(items.class);
+                Log.i(LOG_TAG, "onChildAdded: "+newItem.getTitle());
                 itemList.add(newItem);
+                Log.i(LOG_TAG, "onChildAdded: "+itemList);
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                items newItem = snapshot.getValue(items.class);
+                itemList.add(newItem);
             }
 
             @Override
