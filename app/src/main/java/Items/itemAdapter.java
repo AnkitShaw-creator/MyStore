@@ -13,13 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mystore.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder> {
 
     private static final String LOG_TAG = "itemAdapter";
-    private ArrayList<items> i;
+    private List<items> i;
     private onItemListener mListener;
-    public  itemAdapter(ArrayList<items> i, onItemListener itemListener){
+    public  itemAdapter(List<items> i, onItemListener itemListener){
         this.i = i;
         this.mListener = itemListener;
     }

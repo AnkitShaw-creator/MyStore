@@ -30,7 +30,7 @@
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
                 android:layout_weight="2"
                 android:orientation="vertical">
 
@@ -50,8 +50,15 @@
                     android:textSize="20sp"
                     tools:text="@string/item_short_description" />
             </LinearLayout>
-        </LinearLayout>
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/open_full_content_button"
+                android:layout_width="50dp"
+                android:layout_height="120dp"
+                app:backgroundTint="#FF5722"
+                app:icon="@drawable/ic_open_details" />
+
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 

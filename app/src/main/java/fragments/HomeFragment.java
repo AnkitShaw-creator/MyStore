@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import Items.itemAdapter;
 import Items.items;
@@ -58,7 +59,7 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         ItemList = view.findViewById(R.id.content_list);
         ItemList.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        ArrayList<items> itemList = new ArrayList<>();
+        List<items> itemList = new ArrayList<>();
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item1", "Small description of the item1"));
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item2", "Small description of the item2"));
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item3", "Small description of the item3"));
@@ -67,7 +68,9 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         ref.child("items").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                 Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                Log.i(LOG_TAG, "onChildAdded: "+snapshot.getChildrenCount());
                 items newItem = snapshot.getValue(items.class);
                 Log.i(LOG_TAG, "onChildAdded: "+newItem.getTitle());
                 itemList.add(newItem);
@@ -93,9 +96,11 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(LOG_TAG, "onCancelled: ", error.toException());
             }
         });
-
+        //
+        // Log.i(LOG_TAG, "onCreateView: "+itemList.get(0).getTitle());
         mAdapter = new itemAdapter(itemList, this);
         ItemList.setAdapter(mAdapter);
         return view;
