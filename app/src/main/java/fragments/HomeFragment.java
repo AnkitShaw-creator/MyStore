@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainerView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -36,7 +37,7 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
     private static final String LOG_TAG = "HomeFragment";
     private RecyclerView ItemList;
     private itemAdapter mAdapter;
-
+    private FragmentContainerView detailFragmentContainer;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
 
@@ -49,6 +50,7 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        detailFragmentContainer = view.findViewById(R.id.detailFragmentContainer);
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
@@ -60,6 +62,8 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         ItemList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         List<items> itemList = new ArrayList<>();
+        mAdapter = new itemAdapter(itemList, this);
+        ItemList.setAdapter(mAdapter);
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item1", "Small description of the item1"));
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item2", "Small description of the item2"));
         //itemList.add(new Items(R.drawable.ic_icon_order, "Item3", "Small description of the item3"));
@@ -75,6 +79,7 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
                 Log.i(LOG_TAG, "onChildAdded: "+newItem.getTitle());
                 itemList.add(newItem);
                 Log.i(LOG_TAG, "onChildAdded: "+itemList);
+                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -101,15 +106,17 @@ public class HomeFragment extends Fragment  implements itemAdapter.onItemListene
         });
         //
         // Log.i(LOG_TAG, "onCreateView: "+itemList.get(0).getTitle());
-        mAdapter = new itemAdapter(itemList, this);
-        ItemList.setAdapter(mAdapter);
+
         return view;
     }
 
     @Override
     public void onItemClick(int position) {
+        ItemList.setVisibility(View.INVISIBLE);
         getChildFragmentManager()
-                .beginTransaction().attach(new ItemFullContentFragment()).replace(R.id.fragmentContainerView,new ItemFullContentFragment(), null)
+                .beginTransaction()
+                .replace(R.id.detailFragmentContainer,new ItemFullContentFragment(), null)
                 .commit();
+        getChildFragmentManager().executePendingTransactions();
     }
 }

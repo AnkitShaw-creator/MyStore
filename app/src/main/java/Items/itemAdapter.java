@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.mystore.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,7 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
         holder.itemImage.setImageResource(R.drawable.ic_icon_order);
         holder.itemName.setText(currentItem.getTitle());
         holder.itemDescription.setText(currentItem.getDescription());
+
     }
 
 
@@ -51,13 +53,16 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
         private ImageView itemImage;
         private TextView itemName;
         private TextView itemDescription;
+        private MaterialButton detailsButton;
         onItemListener onItemListener;
         public itemViewHolder(@NonNull View itemView, onItemListener i) {
             super(itemView);
             itemImage = itemView.findViewById(R.id.item_imageView);
             itemName = itemView.findViewById(R.id.item_name);
             itemDescription = itemView.findViewById(R.id.item_small_description);
+            detailsButton = itemView.findViewById(R.id.open_full_content_button);
             this.onItemListener = i;
+            detailsButton.setOnClickListener(this);
         }
 
 
