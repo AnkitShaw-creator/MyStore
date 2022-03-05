@@ -1,84 +1,11 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="fragments.ItemFullContentFragment">
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:fontFamily="@font/bree_serif"
-        android:paddingStart="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:text="Item Name"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/item_image_imageView"
-        android:layout_width="410dp"
-        android:layout_height="195dp"
-        android:src="@drawable/ic_icon_order"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/item_image_imageView">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/wishListButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#FF5722"
-            android:fontFamily="@font/bree_serif"
-            android:text="@string/add_to_wishlist"
-            android:textColor="#212121"
-            app:icon="@drawable/ic_favourite" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/buyButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:backgroundTint="#8BC34A"
-            android:fontFamily="@font/bree_serif"
-            android:text="@string/buy"
-            android:textColor="#37474F"
-            app:icon="@drawable/ic_icon_order" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/item_long_description_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/bree_serif"
-        android:padding="10dp"
-        android:text="@string/long_description"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+    app:circularflow_radiusInDP="8dp"
+    tools:context="fragments.ITEMS.ItemFullContentFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_fab"
@@ -86,12 +13,175 @@
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:contentDescription="@string/back"
         android:focusable="true"
         android:src="@drawable/ic_arrow_back"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/scrollview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="ImageContrastCheck,ImageContrastCheck" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollview">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/detail_item_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="@font/bree_serif"
+                android:padding="10dp"
+                android:text="Item Name"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/item_image_imageView"
+                android:layout_width="410dp"
+                android:layout_height="195dp"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/ic_icon_order"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/detail_item_name" />
+
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_image_imageView">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/wishListButton"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#FF5722"
+                    android:fontFamily="@font/bree_serif"
+                    android:text="@string/add_to_wishlist"
+                    android:textColor="#212121"
+                    app:icon="@drawable/ic_favourite" />
+
+                <androidx.constraintlayout.widget.Barrier
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#6200EA"
+                    app:barrierDirection="left" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/buyButton"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:backgroundTint="#8BC34A"
+                    android:fontFamily="@font/bree_serif"
+                    android:text="@string/buy"
+                    android:textColor="#37474F"
+                    app:icon="@drawable/ic_icon_order" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/item_long_description_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/bree_serif"
+                android:padding="10dp"
+                android:text="@string/long_description"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+            <TableLayout
+                android:id="@+id/details_table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/item_long_description_textView">
+
+                <TableRow
+                    android:id="@+id/detail_price_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:text="@string/price_label" />
+
+                    <TextView
+                        android:id="@+id/item_price"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        tools:text="20" />
+                </TableRow>
+
+                <TableRow
+                    android:id="@+id/detail_quantity_row"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        android:text="@string/quantity_label" />
+
+                    <TextView
+                        android:id="@+id/item_quantity"
+                        android:layout_weight="1"
+                        android:padding="3dp"
+                        tools:text="0" />
+                </TableRow>
+            </TableLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/item_error_message_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="29dp"
+                android:layout_marginEnd="5dp"
+                android:background="#F14747"
+                android:elevation="20dp"
+                android:fontFamily="@font/bree_serif"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="@string/error_message_quantity"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/details_table" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+
+
+
+</FrameLayout>

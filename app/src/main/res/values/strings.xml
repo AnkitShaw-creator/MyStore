@@ -21,4 +21,7 @@
     <string name="buy">Buy</string>
     <string name="item_short_description">This is a short description of the item. The size of the view will increase</string>
     <string name="sign_out">Sign out</string>
+    <string name="price_label">Price(in Rs.)</string>
+    <string name="quantity_label">Available quantity</string>
+    <string name="error_message_quantity">Sorry, looks like the item is currently out of stock.</string>
 </resources>
