@@ -24,4 +24,6 @@
     <string name="price_label">Price(in Rs.)</string>
     <string name="quantity_label">Available quantity</string>
     <string name="error_message_quantity">Sorry, looks like the item is currently out of stock.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

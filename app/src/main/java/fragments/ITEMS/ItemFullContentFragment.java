@@ -41,7 +41,7 @@ public class ItemFullContentFragment extends Fragment {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference ref;
-
+    HomeFragment parent;
     private String itemTitle;
 
     public ItemFullContentFragment() {
@@ -54,7 +54,6 @@ public class ItemFullContentFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_item_full_content, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
-        itemTitle = viewModel.getItemTitle();
 
         itemImage= v.findViewById(R.id.item_imageView);
         mItemName = v.findViewById(R.id.detail_item_name);
@@ -71,6 +70,7 @@ public class ItemFullContentFragment extends Fragment {
        if(mAuth.getCurrentUser() != null){
            set_UI();
        }
+       parent = new HomeFragment();
 
 
         return  v;
@@ -90,7 +90,10 @@ public class ItemFullContentFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getParentFragmentManager()
-                        .popBackStackImmediate();
+                        .beginTransaction()
+                        .replace(R.id.detailFragmentContainer, new ItemListFragment(),null)
+                        .commit();
+
             }
         });
     }
