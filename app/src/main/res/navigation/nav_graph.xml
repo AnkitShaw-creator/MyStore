@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="fragments.ITEMS.HomeFragment"
+        android:name="fragments.HOME.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -16,18 +16,18 @@
     </fragment>
     <fragment
         android:id="@+id/itemFullContentFragment"
-        android:name="fragments.ITEMS.ItemFullContentFragment"
+        android:name="fragments.HOME.ItemFullContentFragment"
         android:label="fragment_item_full_content"
         tools:layout="@layout/fragment_item_full_content" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="fragments.SettingsFragment"
+        android:name="fragments.SETTINGS.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/orderFragment"
-        android:name="fragments.OrderFragment"
+        android:name="fragments.ORDERS.OrderFragment"
         android:label="fragment_order"
         tools:layout="@layout/fragment_order" />
 </navigation>

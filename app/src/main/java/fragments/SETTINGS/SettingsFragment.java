@@ -1,4 +1,4 @@
-package fragments;
+package fragments.SETTINGS;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -33,7 +33,7 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         mAuth = FirebaseAuth.getInstance();
         logOutButton = v.findViewById(R.id.logOutButon);
-        /*logOutButton.setOnClickListener(new View.OnClickListener() {
+        logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mAuth.signOut();
@@ -44,7 +44,7 @@ public class SettingsFragment extends Fragment {
 
                 }
             }
-        });*/
+        });
 
         return v;
     }

@@ -13,7 +13,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/enter_first_name"
+        android:hint="@string/enter_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,7 +31,7 @@
         android:id="@+id/ed_lastname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/enter_last_name"
+        android:hint="@string/enter_address"
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:layout_marginEnd="16dp"
@@ -42,7 +42,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userLastName"
+            android:id="@+id/userAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
@@ -121,12 +121,13 @@
         android:layout_height="50dp"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="16dp"
         android:text="@string/add_account"
         android:textSize="16sp"
+        app:backgroundTint="#F1AE99"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent" />
 
 

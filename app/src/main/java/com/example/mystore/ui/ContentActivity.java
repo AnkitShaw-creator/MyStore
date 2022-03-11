@@ -12,9 +12,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
-import fragments.ITEMS.HomeFragment;
-import fragments.OrderFragment;
-import fragments.SettingsFragment;
+import fragments.HOME.HomeFragment;
+import fragments.ORDERS.OrderFragment;
+import fragments.SETTINGS.SettingsFragment;
 
 public class ContentActivity extends AppCompatActivity {
 
