@@ -7,7 +7,7 @@
     tools:context=".ui.SignUpActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ed_firstname"
+        android:id="@+id/ed_fullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/userFirstName"
+            android:id="@+id/userFullName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
@@ -28,7 +28,7 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/ed_lastname"
+        android:id="@+id/ed_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/enter_address"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_firstname"
+        app:layout_constraintTop_toBottomOf="@id/ed_fullName"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/ed_lastname"
+        app:layout_constraintTop_toBottomOf="@id/ed_address"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText

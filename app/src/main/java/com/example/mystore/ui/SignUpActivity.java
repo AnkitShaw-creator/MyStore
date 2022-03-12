@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
         userRef = database.getReference();
 
-        mName = findViewById(R.id.userFirstName);
+        mName = findViewById(R.id.userFullName);
         mAddress = findViewById(R.id.userAddress);
         mPhoneNumber = findViewById(R.id.userPhoneNumber);
         mEmail = findViewById(R.id.userEmail);

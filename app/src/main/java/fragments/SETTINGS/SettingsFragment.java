@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private MaterialButton logOutButton;
+    private MaterialButton logOutButton,accountButton, contactUsButton;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -33,6 +33,15 @@ public class SettingsFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         mAuth = FirebaseAuth.getInstance();
         logOutButton = v.findViewById(R.id.logOutButon);
+        accountButton = v.findViewById(R.id.account_settings);
+        contactUsButton = v.findViewById(R.id.customerCare_button);
+
+        setUI();
+
+        return v;
+    }
+
+    private void setUI() {
         logOutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,6 +55,24 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        return v;
+        accountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView, new UserAccountFragment())
+                        .commit();
+            }
+        });
+        contactUsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getParentFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.fragmentContainerView, new ContactUsFragment())
+                        .commit();
+            }
+        });
+
     }
 }
