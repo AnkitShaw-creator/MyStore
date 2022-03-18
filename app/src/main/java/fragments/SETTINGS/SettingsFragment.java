@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment {
                 }
             }
         });
-
+/**
         accountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,7 +72,7 @@ public class SettingsFragment extends Fragment {
                         .replace(R.id.fragmentContainerView, new ContactUsFragment())
                         .commit();
             }
-        });
+        });*/
 
     }
 }

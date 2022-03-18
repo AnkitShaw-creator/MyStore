@@ -2,19 +2,26 @@ package fragments.HOME;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainerView;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mystore.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -25,12 +32,10 @@ import Items.items;
 public class HomeFragment extends Fragment {
 
 
-    private static final String LOG_TAG = "HomeFragment";
+    private static final String TAG = "HomeFragment";
 
-    public RecyclerView ItemList;
-    private itemAdapter mAdapter;
     private FragmentContainerView detailFragmentContainer;
-    private List<items> itemList;
+
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
@@ -48,11 +53,39 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         detailFragmentContainer = view.findViewById(R.id.detailFragmentContainer);
         viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
-
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
         //added the URl of the database location as was getting a warning of database being in a different region
         ref = database.getReference();
+        Log.d(TAG, "onCreateView:"+ref.child("items"));
+
+        ref.child("items").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(TAG, "onCancelled: ", error.toException() );
+            }
+        });
+
 
         getChildFragmentManager()
                 .beginTransaction()
@@ -66,8 +99,6 @@ public class HomeFragment extends Fragment {
         itemList = new ArrayList<>();
         mAdapter = new itemAdapter(itemList, this);
         ItemList.setAdapter(mAdapter);*/
-
-
 
         return view;
     }

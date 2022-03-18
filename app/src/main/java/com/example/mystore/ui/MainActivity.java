@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setVisibility(View.INVISIBLE);
         signUpButton.setVisibility(View.INVISIBLE);
 
-
-
-
     }
 
     @Override
