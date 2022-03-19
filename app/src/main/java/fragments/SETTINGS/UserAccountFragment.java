@@ -40,7 +40,7 @@ public class UserAccountFragment extends Fragment {
         mEmail = v.findViewById(R.id.user_account_Email);
         mEmail.setEnabled(false);
         mPhone = v.findViewById(R.id.user_account_PhoneNumber);
-        
+        mPhone.setEnabled(false);
         setUI();
         return v;
     }
