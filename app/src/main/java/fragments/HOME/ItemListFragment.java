@@ -35,7 +35,7 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
 
     private static final String TAG = ItemListFragment.class.getName();
     private RecyclerView contentList;
-    private List<items> itemList;
+    private ArrayList<items> itemList;
     private itemAdapter mAdapter;
 
     private FirebaseAuth mAuth;
@@ -51,51 +51,64 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-     View v = inflater.inflate(R.layout.fragment_item_list,container,false);
-     contentList = v.findViewById(R.id.content_list);
-     itemList = new ArrayList<>();
-     contentList.setLayoutManager(new LinearLayoutManager(getContext()));
-     viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
+         View v = inflater.inflate(R.layout.fragment_item_list,container,false);
+         contentList = v.findViewById(R.id.content_list);
+         itemList = new ArrayList<>();
+         contentList.setLayoutManager(new LinearLayoutManager(getContext()));
+         viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
 
-     mAuth = FirebaseAuth.getInstance();
-     if(mAuth.getCurrentUser() != null){
-         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
-         ref = database.getReference();
-     }
-
-     ref.child("items").addChildEventListener(new ChildEventListener() {
-         @Override
-         public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-             Log.d(TAG, "onChildAdded: "+snapshot.getChildrenCount());
+         mAuth = FirebaseAuth.getInstance();
+         if(mAuth.getCurrentUser() != null){
+             database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
+             ref = database.getReference();
          }
+         mAdapter = new itemAdapter(itemList,this);
 
-         @Override
-         public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+         ref.child("items").addChildEventListener(new ChildEventListener() {
+             @Override
+             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                 Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                 items currentItem = snapshot.getValue(items.class);
+                 itemList.add(currentItem);
+                 mAdapter.notifyDataSetChanged();
+                 //Log.d(TAG, "onChildChanged: itemlist-"+ itemList.size());
+             }
 
-         }
+             @Override
+             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                 Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                 items currentItem = snapshot.getValue(items.class);
+                 itemList.add(currentItem);
 
-         @Override
-         public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+             }
 
-         }
+             @Override
+             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
 
-         @Override
-         public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+             }
 
-         }
+             @Override
+             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
+             }
 
-         }
-     });
-     mAdapter = new itemAdapter(itemList,this);
-     contentList.setAdapter(mAdapter);
-     return v;
+             @Override
+             public void onCancelled(@NonNull DatabaseError error) {
+                 Log.e(TAG, "onCancelled: ", error.toException());
+             }
+         });
+         mAdapter = new itemAdapter(itemList,this);
+         contentList.swapAdapter(mAdapter,true);
+         return v;
     }
 
     @Override
     public void onItemClick(int position) {
-
+        //Log.d(TAG, "onCreateView: size"+itemList.size());
+        viewModel.setItem(itemList.get(position));
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.detailFragmentContainer, new ItemFullContentFragment(), null)
+                .commit();
     }
 }

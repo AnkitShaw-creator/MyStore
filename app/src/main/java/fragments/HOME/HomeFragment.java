@@ -59,34 +59,6 @@ public class HomeFragment extends Fragment {
         ref = database.getReference();
         Log.d(TAG, "onCreateView:"+ref.child("items"));
 
-        ref.child("items").addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d(TAG, "onChildAdded: "+snapshot.getKey());
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "onCancelled: ", error.toException() );
-            }
-        });
-
-
         getChildFragmentManager()
                 .beginTransaction()
                 .replace(R.id.detailFragmentContainer,new ItemListFragment(), null)

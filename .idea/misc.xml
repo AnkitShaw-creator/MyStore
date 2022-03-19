@@ -21,14 +21,19 @@
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/activity_sign_up.xml" value="0.33" />
-        <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_contact_us.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_home.xml" value="0.35260416666666666" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_item_full_content.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_item_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_order.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/layout/layout_item.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/ankishaw/AndroidStudioProjects/MyStore/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/activity_login.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/activity_sign_up.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_home.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_item_full_content.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_item_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/fragment_settings.xml" value="0.358695652173913" />
+        <entry key="..\:/Users/ankit/AndroidStudioProjects/MyStore/app/src/main/res/layout/layout_item.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

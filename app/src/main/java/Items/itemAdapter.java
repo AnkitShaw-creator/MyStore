@@ -19,9 +19,9 @@ import java.util.List;
 public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder> {
 
     private static final String LOG_TAG = "itemAdapter";
-    private List<items> i;
+    private ArrayList<items> i;
     private onItemListener mListener;
-    public  itemAdapter(List<items> i, onItemListener itemListener){
+    public  itemAdapter(ArrayList<items> i, onItemListener itemListener){
         this.i = i;
         this.mListener = itemListener;
     }
@@ -41,9 +41,7 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
         holder.itemImage.setImageResource(R.drawable.ic_icon_order);
         holder.itemName.setText(currentItem.getTitle());
         holder.itemDescription.setText(currentItem.getDescription());
-
     }
-
 
     @Override
     public int getItemCount() {
