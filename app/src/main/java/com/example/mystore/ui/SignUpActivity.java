@@ -77,7 +77,7 @@ public class SignUpActivity extends AppCompatActivity {
                     user.put("address",address);
                     user.put("phone",phoneNumber);
                     user.put("email",email);
-                    String userId = userName+database.hashCode();
+                    String userId = mAuth.getUid();
 
                     userRef.child("users").child(userId).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

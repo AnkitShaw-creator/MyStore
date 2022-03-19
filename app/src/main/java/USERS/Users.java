@@ -1,12 +1,12 @@
 package USERS;
 
-public class users {
+public class Users {
 
     String address, email, name, phone;
 
-    public users(){}
+    public Users(){}
 
-    public users(String address, String email, String name, String phone) {
+    public Users(String address, String email, String name, String phone) {
         this.address = address;
         this.email = email;
         this.name = name;
