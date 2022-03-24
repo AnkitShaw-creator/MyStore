@@ -29,7 +29,19 @@
         app:layout_constraintTop_toBottomOf="@id/account_settings" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/logOutButon"
+        android:id="@+id/changePasswordButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/bree_serif"
+        android:text="@string/change_password"
+        app:backgroundTint="#43A047"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/customerCare_button" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logOutButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -39,6 +51,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/customerCare_button" />
+        app:layout_constraintTop_toBottomOf="@+id/changePasswordButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

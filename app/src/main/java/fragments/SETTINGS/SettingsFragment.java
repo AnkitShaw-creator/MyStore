@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private MaterialButton logOutButton,accountButton, contactUsButton;
+    private MaterialButton logOutButton,accountButton, changePassword, contactUsButton;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -32,8 +32,9 @@ public class SettingsFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_settings, container, false);
         mAuth = FirebaseAuth.getInstance();
-        logOutButton = v.findViewById(R.id.logOutButon);
+        logOutButton = v.findViewById(R.id.logOutButton);
         accountButton = v.findViewById(R.id.account_settings);
+        changePassword = v.findViewById(R.id.changePasswordButton);
         contactUsButton = v.findViewById(R.id.customerCare_button);
 
         setUI();
@@ -42,27 +43,26 @@ public class SettingsFragment extends Fragment {
     }
 
     private void setUI() {
-        logOutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mAuth.signOut();
-                FirebaseUser user = mAuth.getCurrentUser();
-                if(user == null){
-                    Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-                    startActivity(mainIntent);
+        logOutButton.setOnClickListener(view -> {
+            mAuth.signOut();
+            FirebaseUser user = mAuth.getCurrentUser();
+            if(user == null){
+                Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                startActivity(mainIntent);
 
-                }
             }
         });
-
-        accountButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, new UserAccountFragment())
-                        .commit();
-            }
+        accountButton.setOnClickListener(view -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, new UserAccountFragment())
+                    .commit();
+        });
+        changePassword.setOnClickListener(view -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, new UpdatePasswordFragment())
+                    .commit();
         });
         contactUsButton.setOnClickListener(new View.OnClickListener() {
             @Override
