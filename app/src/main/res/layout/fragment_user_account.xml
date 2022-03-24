@@ -10,8 +10,6 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:contentDescription="@string/back"
         android:focusable="true"
@@ -24,7 +22,6 @@
         android:id="@+id/edit_fab"
         android:layout_width="wrap_content"
         android:layout_height="56dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="true"
         android:contentDescription="@string/back"
@@ -38,7 +35,7 @@
         android:id="@+id/user_account_profile_image"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="40dp"
         android:src="@drawable/ic_person"
         app:civ_circle_background_color="#673AB7"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,11 +44,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ScrollView
+        android:id="@+id/scrollView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/user_account_profile_image">
 
@@ -162,10 +161,25 @@
         android:layout_width="128dp"
         android:layout_height="48dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
-        android:text="Save"
+        android:text="@string/save"
         app:backgroundTint="#F4511E"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/account_revert_changes"
+        android:layout_width="128dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/revert"
+        app:backgroundTint="#F4511E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

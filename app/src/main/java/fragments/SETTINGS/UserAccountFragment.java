@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.mystore.R;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,7 +30,7 @@ public class UserAccountFragment extends Fragment {
 
     private FloatingActionButton backButton, editButton;
     private EditText mName, mAddress, mEmail, mPhone;
-
+    private MaterialButton mSave, mRevert;
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference ref;
@@ -63,6 +64,10 @@ public class UserAccountFragment extends Fragment {
         mEmail.setEnabled(false);
         mPhone = v.findViewById(R.id.user_account_PhoneNumber);
         mPhone.setEnabled(false);
+        mSave = v.findViewById(R.id.account_save_update);
+        mSave.setVisibility(View.INVISIBLE);
+        mRevert = v.findViewById(R.id.account_revert_changes);
+        mRevert.setVisibility(View.INVISIBLE);
 
         setUI();
         return v;
@@ -106,7 +111,30 @@ public class UserAccountFragment extends Fragment {
                 mName.setEnabled(true);
                 mAddress.setEnabled(true);
                 mPhone.setEnabled(true);
+                mSave.setVisibility(View.VISIBLE);
+                mRevert.setVisibility(View.VISIBLE);
+                editButton.setVisibility(View.INVISIBLE);
             }
         });
+
+        mSave.setOnClickListener(view->{
+            save_changes();
+        });
+
+        mRevert.setOnClickListener(view -> {
+            revert_changes();
+        });
+    }
+
+    private void revert_changes() {
+        editButton.setVisibility(View.VISIBLE);
+        mSave.setVisibility(View.INVISIBLE);
+        mRevert.setVisibility(View.INVISIBLE);
+    }
+
+    private void save_changes() {
+        editButton.setVisibility(View.VISIBLE);
+        mSave.setVisibility(View.INVISIBLE);
+        mRevert.setVisibility(View.INVISIBLE);
     }
 }
