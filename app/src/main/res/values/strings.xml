@@ -35,9 +35,15 @@
     <string name="header_phone">Phone</string>
     <string name="save">Save</string>
     <string name="revert">Revert</string>
-    <!-- TODO: Remove or change this placeholder text -->
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="enter_old_password">Enter old Password</string>
     <string name="enter_new_password">Enter New Password</string>
     <string name="change_password">Change Password</string>
+    <string name="update_password">Update Password</string>
+    <string name="password_criteria">
+        &#8226;Password must be >5 characters<br/>
+        &#8226;Password must be contain at least 1 uppercase characters, 1 lowercase character and a digit between 0-9<br/>
+        &#8226;Password must not contain any of these special character - "/", "$", ",", ".", "*"<br/>
+    </string>
 </resources>
