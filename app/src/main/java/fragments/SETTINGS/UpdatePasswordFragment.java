@@ -64,6 +64,8 @@ public class UpdatePasswordFragment extends Fragment {
             String oldPassword = String.valueOf(mOldPassword.getText());
             String newPassword = String.valueOf(mNewPassword.getText());
 
+           // TODO: The code here current don't work, look for a solution.
+
             mUpdate.setOnClickListener(view -> {
                 if(!email.equals("") && !oldPassword.equals("")) {
                     userCred = EmailAuthProvider.getCredential(email, oldPassword);

@@ -93,7 +93,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#8BC34A"
                     android:fontFamily="@font/bree_serif"
-                    android:text="@string/buy"
+                    android:text="@string/add_to_cart"
                     android:textColor="#37474F"
                     app:icon="@drawable/ic_icon_order" />
             </LinearLayout>
