@@ -87,7 +87,7 @@
                     app:barrierDirection="left" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/buyButton"
+                    android:id="@+id/cartButton"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

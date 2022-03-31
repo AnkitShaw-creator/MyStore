@@ -1,23 +1,33 @@
 package fragments.HOME;
 
+import static com.example.mystore.ui.MainActivity.DATABASE_URL;
+
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.mystore.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class ItemFullContentFragment extends Fragment {
@@ -31,10 +41,12 @@ public class ItemFullContentFragment extends Fragment {
     private itemViewModel viewModel;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference ref;
-    HomeFragment parent;
     private String itemTitle;
+
+    private static final String TAG ="ItemFullContentFragment";
 
     public ItemFullContentFragment() {
         // Required empty public constructor
@@ -50,7 +62,7 @@ public class ItemFullContentFragment extends Fragment {
         itemImage= v.findViewById(R.id.item_imageView);
         mItemName = v.findViewById(R.id.detail_item_name);
         mWishList = v.findViewById(R.id.wishListButton);
-        mBuy = v.findViewById(R.id.buyButton);
+        mBuy = v.findViewById(R.id.cartButton);
         mDescription = v.findViewById(R.id.item_long_description_textView);
         mPrice = v.findViewById(R.id.item_price);
         mQuantity = v.findViewById(R.id.item_quantity);
@@ -60,10 +72,11 @@ public class ItemFullContentFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
        if(mAuth.getCurrentUser() != null){
+           user = mAuth.getCurrentUser();
+           database = FirebaseDatabase.getInstance(DATABASE_URL);
+           ref = database.getReference("users");
            set_UI();
        }
-       parent = new HomeFragment();
-
 
         return  v;
     }
@@ -88,5 +101,37 @@ public class ItemFullContentFragment extends Fragment {
 
             }
         });
+        mWishList.setOnClickListener(view ->{
+
+        });
+
+        mBuy.setOnClickListener(view ->{
+            HashMap<String, String> pending_order = new HashMap<>();
+
+            pending_order.put("Name", mItemName.getText().toString());
+            pending_order.put("Quantity", "1");
+            pending_order.put("Rate", mPrice.getText().toString());
+
+            Log.d(TAG, "set_UI: Name"+mItemName.getText().toString());
+            Log.d(TAG, "set_UI: price"+mPrice.getText().toString());
+            Log.d(TAG, "set_UI: quantity"+pending_order.get("Quantity"));
+
+            String orderKey = String.valueOf(pending_order.hashCode());
+            Log.d(TAG, "set_UI: key"+orderKey);
+            ref.child(user.getUid()).child("pending_order")
+                    .child(orderKey).setValue(pending_order)
+                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Log.e(TAG, "onComplete: ", task.getException());
+                            }
+                        }
+                    });
+        });
+
     }
 }

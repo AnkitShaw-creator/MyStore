@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     MaterialButton loginButton, signUpButton;
     ProgressBar mProgressBar;
     private FirebaseAuth mAuth;
+    public static final String DATABASE_URL = "https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
