@@ -107,18 +107,13 @@ public class ItemFullContentFragment extends Fragment {
 
         mBuy.setOnClickListener(view ->{
             HashMap<String, String> pending_order = new HashMap<>();
-
-            pending_order.put("Name", mItemName.getText().toString());
-            pending_order.put("Quantity", "1");
-            pending_order.put("Rate", mPrice.getText().toString());
-
-            Log.d(TAG, "set_UI: Name"+mItemName.getText().toString());
-            Log.d(TAG, "set_UI: price"+mPrice.getText().toString());
-            Log.d(TAG, "set_UI: quantity"+pending_order.get("Quantity"));
-
+            pending_order.put("name", mItemName.getText().toString());
+            pending_order.put("quantity", "1");
+            pending_order.put("rate", mPrice.getText().toString());
             String orderKey = String.valueOf(pending_order.hashCode());
+            pending_order.put("order_id", orderKey);
             Log.d(TAG, "set_UI: key"+orderKey);
-            ref.child(user.getUid()).child("pending_order")
+            ref.child(user.getUid()).child("pending_orders")
                     .child(orderKey).setValue(pending_order)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

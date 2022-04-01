@@ -1,33 +1,25 @@
 package Order;
 
 public class order {
-    public String itemId, order_item, quantity, total_amount, address;
+
+    public String name,quantity,rate,order_id;
 
     public order() {
     }
 
-    public order(String itemId, String order_item, String quantity, String total_amount, String address) {
-        this.itemId = itemId;
-        this.order_item = order_item;
+    public order(String name, String quantity, String rate, String order_id) {
+        this.name = name;
         this.quantity = quantity;
-        this.total_amount = total_amount;
-        this.address = address;
+        this.rate = rate;
+        this.order_id = order_id;
     }
 
-    public String getItemId() {
-        return itemId;
+    public String getName() {
+        return name;
     }
 
-    public void setItemId(String itemId) {
-        this.itemId = itemId;
-    }
-
-    public String getOrder_item() {
-        return order_item;
-    }
-
-    public void setOrder_item(String order_item) {
-        this.order_item = order_item;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getQuantity() {
@@ -38,19 +30,19 @@ public class order {
         this.quantity = quantity;
     }
 
-    public String getTotal_amount() {
-        return total_amount;
+    public String getRate() {
+        return rate;
     }
 
-    public void setTotal_amount(String total_amount) {
-        this.total_amount = total_amount;
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 
-    public String getAddress() {
-        return address;
+    public String getOrder_id() {
+        return order_id;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setOrder_id(String order_id) {
+        this.order_id = order_id;
     }
 }
