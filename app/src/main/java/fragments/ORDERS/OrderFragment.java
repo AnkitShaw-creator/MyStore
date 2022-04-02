@@ -66,8 +66,6 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
         pendingOrder = new ArrayList<>();
 
-        mAdapter = new OrderAdapter(pendingOrder, this);
-
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
         ref = database.getReference("users").child(user.getUid());
@@ -77,11 +75,10 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
     }
 
     private void setUI() {
-        Log.d(TAG, "setUI: Here");
         orderList.setVisibility(View.INVISIBLE);
         orderList.setHasFixedSize(true);
         orderList.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        mAdapter = new OrderAdapter(pendingOrder, this);
         ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -92,7 +89,6 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
                     noOrderTV.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                     order o = snapshot.getValue(order.class);
-                    Log.d(TAG, "onChildAdded: pending_order_id: " +o.getOrder_id());
                     pendingOrder.add(o);
                     mAdapter.notifyDataSetChanged();
                 }
@@ -104,7 +100,6 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
                 order o = snapshot.getValue(order.class);
                 Log.d(TAG, "onChildAdded: pending_order_id: " +o.getOrder_id());
                 pendingOrder.add(o);
-                mAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -124,7 +119,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
         });
         //Log.d(TAG, "setUI: "+pendingOrder.get(0).getName());
         mAdapter = new OrderAdapter(pendingOrder, this);
-        orderList.setAdapter(mAdapter);
+        orderList.swapAdapter(mAdapter, true);
 
     }
 

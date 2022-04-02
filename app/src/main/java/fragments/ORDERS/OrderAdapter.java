@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.mystore.R;
 import com.google.android.material.textview.MaterialTextView;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import Order.order;
@@ -23,8 +25,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
     private ArrayList<order> orders;
     private orderClickListener listener;
 
-    public OrderAdapter(ArrayList<order> list,  orderClickListener orderListener){
-        this.orders = list;
+    public OrderAdapter(ArrayList<order> orders,  orderClickListener orderListener){
+        this.orders = orders;
         this.listener = orderListener;
     }
 
@@ -41,21 +43,26 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
         order i = orders.get(position);
         Log.d(TAG, "onBindViewHolder: "+i.getName());
         holder.orderName.setText(i.getName());
-        holder.orderQuantity.setText(i.getQuantity());
-        holder.orderRate.setText(i.getRate());
+        String Rate = i.getRate();
+        int rate = Integer.parseInt(Rate.substring(0, Rate.indexOf("/")));
+        int quantity = Integer.parseInt(i.getQuantity());
+        holder.orderQuantity.setText(String.valueOf(quantity));
+        holder.orderRate.setText(MessageFormat.format("Rate: {0}", Rate));
         holder.orderImage.setImageResource(R.drawable.ic_app_logo);
+        holder.orderItemTotal.setText(MessageFormat.format("Total: {0}", String.valueOf(rate * quantity)));
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return orders.size();
     }
 
     public class orderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CircleImageView orderImage;
         private MaterialTextView orderName;
-        private EditText orderQuantity, orderRate;
+        private EditText orderQuantity;
+        private TextView orderRate, orderItemTotal;
         private orderClickListener listener;
         public orderViewHolder(@NonNull View itemView, orderClickListener listener) {
             super(itemView);
@@ -63,6 +70,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
             orderName = itemView.findViewById(R.id.order_item_name);
             orderQuantity = itemView.findViewById(R.id.order_quantity);
             orderRate = itemView.findViewById(R.id.order_rate);
+            orderItemTotal = itemView.findViewById(R.id.order_item_total);
             this.listener = listener;
         }
 

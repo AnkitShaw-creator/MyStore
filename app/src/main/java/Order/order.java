@@ -4,8 +4,7 @@ public class order {
 
     public String name,quantity,rate,order_id;
 
-    public order() {
-    }
+    public order() {}
 
     public order(String name, String quantity, String rate, String order_id) {
         this.name = name;
