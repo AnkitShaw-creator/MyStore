@@ -1,5 +1,8 @@
 package Order;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class order {
 
     public String name,quantity,rate,order_id;
@@ -43,5 +46,15 @@ public class order {
 
     public void setOrder_id(String order_id) {
         this.order_id = order_id;
+    }
+
+    public Map<String, Object > toMap(){
+        Map<String, Object > m = new HashMap<>();
+        m.put("name", this.name);
+        m.put("order_id", this.order_id);
+        m.put("quantity", this.quantity);
+        m.put("rate", this.rate);
+
+        return m;
     }
 }
