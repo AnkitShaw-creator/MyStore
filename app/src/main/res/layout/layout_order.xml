@@ -67,7 +67,7 @@
                     android:layout_weight="1"
                     android:text="Quantity: " />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/order_quantity"
                     android:layout_width="128dp"
                     android:layout_height="wrap_content"

@@ -33,7 +33,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
     private static final String TAG = "OrderAdapter";
     private ArrayList<order> orders;
     private orderClickListener listener;
-    public static int TotalFinal=0;
 
     private FirebaseAuth mAuth;
     private DatabaseReference ref;
@@ -64,26 +63,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
         int quantity = Integer.parseInt(i.getQuantity());
         Log.d(TAG, "onBindViewHolder: "+i.getName());
         holder.orderName.setText(i.getName());
-
-
         holder.orderQuantity.setText(String.valueOf(quantity));
         holder.orderRate.setText(MessageFormat.format("Rate: {0}", Rate));
         holder.orderImage.setImageResource(R.drawable.ic_app_logo);
         holder.orderItemTotal.setText(MessageFormat.format("Total: {0}", String.valueOf(rate * quantity)));
         holder.setIsRecyclable(true);
-
-        holder.orderQuantity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Map<String, order> newOrder = new HashMap<>();
-                String quantity = holder.orderQuantity.getText().toString();
-                order p = new order(name, quantity, Rate, id);
-                ref.child(i.getOrder_id()).updateChildren(p.toMap());
-            }
-        });
-
-        TotalFinal += rate*quantity;
-
     }
 
     @Override
@@ -91,15 +75,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
         return orders.size();
     }
 
-    public int getTotal() {
-        return TotalFinal;
-    }
-
     public class orderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private CircleImageView orderImage;
-        private MaterialTextView orderName;
-        private EditText orderQuantity;
+        private MaterialTextView orderName,orderQuantity;
         private TextView orderRate, orderItemTotal;
         private orderClickListener listener;
         public orderViewHolder(@NonNull View itemView, orderClickListener listener) {
@@ -114,7 +93,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
 
         @Override
         public void onClick(View view) {
-
+            listener.OnOrderClick(getAdapterPosition());
         }
     }
     public interface orderClickListener{

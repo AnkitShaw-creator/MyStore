@@ -1,6 +1,8 @@
 package fragments.ORDERS;
 
-import static Order.OrderAdapter.TotalFinal;
+//import static Order.OrderAdapter.TotalFinal;
+
+import static com.example.mystore.ui.MainActivity.DATABASE_URL;
 
 import android.os.Bundle;
 
@@ -17,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mystore.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
@@ -28,7 +32,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import Order.OrderAdapter;
 import Order.order;
@@ -36,25 +43,25 @@ import Order.order;
 public class OrderFragment extends Fragment implements OrderAdapter.orderClickListener {
 
     private static final String TAG = "OrderFragment";
+    private static int TOTAL;
 
     private ShapeableImageView noOrderIV;
     private MaterialTextView noOrderTV,totalTV;
     private RecyclerView orderList;
     private ConstraintLayout orderTotal;
     private MaterialButton placeOrder;
+
     private ArrayList<order> pendingOrder;
+
     private FirebaseUser user;
     private FirebaseDatabase database;
     private DatabaseReference ref;
 
     private OrderAdapter mAdapter;
 
-    private static int TOTAL;
-
     public OrderFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,51 +71,90 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_order, container, false);
         noOrderIV = v.findViewById(R.id.no_order_ImageView);
+        noOrderIV.setVisibility(View.INVISIBLE);
         noOrderTV = v.findViewById(R.id.no_order_textView);
+        noOrderTV.setVisibility(View.INVISIBLE);
+
         orderList = v.findViewById(R.id.order_List);
+        orderList.setVisibility(View.INVISIBLE);
+        orderList.setHasFixedSize(true);
+        orderList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         orderTotal = v.findViewById(R.id.order_total);
+        orderTotal.setVisibility(View.INVISIBLE);
         totalTV = v.findViewById(R.id.display_total);
         placeOrder = v.findViewById(R.id.place_order);
 
         pendingOrder = new ArrayList<>();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
+        database = FirebaseDatabase.getInstance(DATABASE_URL);
         ref = database.getReference("users").child(user.getUid());
-        Log.d(TAG, "onCreateView: "+user.getUid());
+        //Log.d(TAG, "onCreateView: "+user.getUid());
+        TOTAL=0;
         setUI();
         return v;
     }
 
     private void setUI() {
         orderList.setVisibility(View.INVISIBLE);
-        orderList.setHasFixedSize(true);
-        orderList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         mAdapter = new OrderAdapter(pendingOrder, this);
         ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d(TAG, "onChildAdded: "+snapshot.getChildrenCount());
+                //Log.d(TAG, "onChildAdded: "+snapshot.getChildrenCount());
                 if(snapshot.hasChildren()){
-                    orderList.setVisibility(View.VISIBLE);
                     noOrderIV.setVisibility(View.INVISIBLE);
                     noOrderTV.setVisibility(View.INVISIBLE);
-                    Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                    orderList.setVisibility(View.VISIBLE);
+                    orderTotal.setVisibility(View.VISIBLE);
+                    //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                     order o = snapshot.getValue(order.class);
+                    String Rate = o.getRate();
+                    int rate = Integer.parseInt(Rate.substring(0, Rate.indexOf("/")));
+                    int quantity = Integer.parseInt(o.getQuantity());
+                    TOTAL += rate*quantity;
+                    totalTV.setText(MessageFormat.format("Total: {0}", String.valueOf(TOTAL)));
+                    Log.d(TAG, "onChildAdded: TOTAL:" +TOTAL);
                     pendingOrder.add(o);
                     mAdapter.notifyDataSetChanged();
+                }
+                else{
+                    orderList.setVisibility(View.INVISIBLE);
+                    orderTotal.setVisibility(View.INVISIBLE);
+                    noOrderIV.setVisibility(View.VISIBLE);
+                    noOrderTV.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                Log.d(TAG, "onChildAdded: "+snapshot.getKey());
-                order o = snapshot.getValue(order.class);
-                Log.d(TAG, "onChildAdded: pending_order_id: " +o.getOrder_id());
-                pendingOrder.add(o);
+                if(snapshot.hasChildren()){
+                    noOrderIV.setVisibility(View.INVISIBLE);
+                    noOrderTV.setVisibility(View.INVISIBLE);
+                    orderList.setVisibility(View.VISIBLE);
+                    orderTotal.setVisibility(View.VISIBLE);
+                    //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                    order o = snapshot.getValue(order.class);
+                    String Rate = o.getRate();
+                    int rate = Integer.parseInt(Rate.substring(0, Rate.indexOf("/")));
+                    int quantity = Integer.parseInt(o.getQuantity());
+                    TOTAL += rate*quantity;
+                    totalTV.setText(MessageFormat.format("Total: {0}", String.valueOf(TOTAL)));
+                    Log.d(TAG, "onChildAdded: TOTAL:" +TOTAL);
+                    pendingOrder.add(o);
+                    mAdapter.notifyDataSetChanged();
+                }
+                else{
+                    orderList.setVisibility(View.INVISIBLE);
+                    orderTotal.setVisibility(View.INVISIBLE);
+                    noOrderIV.setVisibility(View.VISIBLE);
+                    noOrderTV.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -129,12 +175,10 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
         //Log.d(TAG, "setUI: "+pendingOrder.get(0).getName());
         mAdapter = new OrderAdapter(pendingOrder, this);
         orderList.swapAdapter(mAdapter, true);
-        TOTAL =0;
-
+        TOTAL=0;
     }
 
     @Override
     public void OnOrderClick(int position) {
-
     }
 }
