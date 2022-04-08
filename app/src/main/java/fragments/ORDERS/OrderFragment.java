@@ -44,7 +44,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
     private static final String TAG = "OrderFragment";
     private static int TOTAL;
-
+    private static boolean HAS_CHILDS = false;
     private ShapeableImageView noOrderIV;
     private MaterialTextView noOrderTV,totalTV;
     private RecyclerView orderList;
@@ -55,7 +55,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
     private FirebaseUser user;
     private FirebaseDatabase database;
-    private DatabaseReference ref;
+    private DatabaseReference ref, ref2;
 
     private OrderAdapter mAdapter;
 
@@ -93,6 +93,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
         user = FirebaseAuth.getInstance().getCurrentUser();
         database = FirebaseDatabase.getInstance(DATABASE_URL);
         ref = database.getReference("users").child(user.getUid());
+        ref2 = database.getReference("users").child(user.getUid());
         //Log.d(TAG, "onCreateView: "+user.getUid());
         TOTAL=0;
         setUI();
@@ -101,13 +102,13 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
     private void setUI() {
         orderList.setVisibility(View.INVISIBLE);
-
         mAdapter = new OrderAdapter(pendingOrder, this);
         ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //Log.d(TAG, "onChildAdded: "+snapshot.getChildrenCount());
                 if(snapshot.hasChildren()){
+                    HAS_CHILDS = true;
                     noOrderIV.setVisibility(View.INVISIBLE);
                     noOrderTV.setVisibility(View.INVISIBLE);
                     orderList.setVisibility(View.VISIBLE);
@@ -134,6 +135,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.hasChildren()){
+                    HAS_CHILDS=true;
                     noOrderIV.setVisibility(View.INVISIBLE);
                     noOrderTV.setVisibility(View.INVISIBLE);
                     orderList.setVisibility(View.VISIBLE);
@@ -172,10 +174,48 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
                 Log.e(TAG, "onCancelled: ", error.toException() );
             }
         });
+
+        if(!HAS_CHILDS){
+            orderList.setVisibility(View.INVISIBLE);
+            orderTotal.setVisibility(View.INVISIBLE);
+            noOrderIV.setVisibility(View.VISIBLE);
+            noOrderTV.setVisibility(View.VISIBLE);
+        }
+
         //Log.d(TAG, "setUI: "+pendingOrder.get(0).getName());
         mAdapter = new OrderAdapter(pendingOrder, this);
         orderList.swapAdapter(mAdapter, true);
         TOTAL=0;
+
+        placeOrder.setOnClickListener(view -> {
+            ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    order o = snapshot.getValue(order.class);
+                    ref2.child("orders").setValue(o.toMap());
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        });
     }
 
     @Override

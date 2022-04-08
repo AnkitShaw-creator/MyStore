@@ -104,7 +104,6 @@ public class ItemFullContentFragment extends Fragment {
         mWishList.setOnClickListener(view ->{
 
         });
-
         mBuy.setOnClickListener(view ->{
             HashMap<String, String> pending_order = new HashMap<>();
             pending_order.put("name", mItemName.getText().toString());

@@ -1,5 +1,8 @@
 package Order;
 
+import android.text.format.Time;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +57,9 @@ public class order {
         m.put("order_id", this.order_id);
         m.put("quantity", this.quantity);
         m.put("rate", this.rate);
+        Time currentTime = new Time();
+        currentTime.setToNow();
+        m.put("time", currentTime);
 
         return m;
     }
