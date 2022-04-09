@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 
 import fragments.HOME.HomeFragment;
-import fragments.ORDERS.OrderFragment;
+import fragments.ORDERS.CartFragment;
 import fragments.SETTINGS.SettingsFragment;
 
 public class ContentActivity extends AppCompatActivity {
@@ -44,7 +44,7 @@ public class ContentActivity extends AppCompatActivity {
                     case R.id.nav_orders:{
                         getSupportFragmentManager().beginTransaction()
                                 .setReorderingAllowed(true)
-                                .replace(R.id.fragmentContainerView, OrderFragment.class,null)
+                                .replace(R.id.fragmentContainerView, CartFragment.class,null)
                                 .commit();
                         Toast.makeText(ContentActivity.this, "Selected orders", Toast.LENGTH_SHORT).show();
                         return true;

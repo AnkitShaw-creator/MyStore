@@ -1,22 +1,22 @@
 package Order;
 
-import android.text.format.Time;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class order {
-
-    public String name,quantity,rate,order_id;
+    private static final String TAG = "order";
+    public String name,quantity,rate,order_id, time;
 
     public order() {}
 
-    public order(String name, String quantity, String rate, String order_id) {
+    public order(String name, String quantity, String rate, String order_id, String time) {
         this.name = name;
         this.quantity = quantity;
         this.rate = rate;
         this.order_id = order_id;
+        this.time = time;
     }
 
     public String getName() {
@@ -51,16 +51,22 @@ public class order {
         this.order_id = order_id;
     }
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
     public Map<String, Object > toMap(){
         Map<String, Object > m = new HashMap<>();
         m.put("name", this.name);
         m.put("order_id", this.order_id);
         m.put("quantity", this.quantity);
         m.put("rate", this.rate);
-        Time currentTime = new Time();
-        currentTime.setToNow();
-        m.put("time", currentTime);
-
+        String date = new Date().toString();
+        m.put("time", date);
         return m;
     }
 }

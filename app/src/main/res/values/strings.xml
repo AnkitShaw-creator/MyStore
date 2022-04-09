@@ -42,9 +42,9 @@
     <string name="change_password">Change Password</string>
     <string name="update_password">Update Password</string>
     <string name="password_criteria">
-        &#8226;Password must be >5 characters<br/>
-        &#8226;Password must be contain at least 1 uppercase characters, 1 lowercase character and a digit between 0-9<br/>
-        &#8226;Password must not contain any of these special character - "/", "$", ",", ".", "*"<br/>
+        &#8226;Password must be >5 characters<br />
+        &#8226;Password must be contain at least 1 uppercase characters, 1 lowercase character and a digit between 0-9<br />
+        &#8226;Password must not contain any of these special character - "/", "$", ",", ".", "*"<br />
     </string>
     <string name="add_to_cart">Add to cart</string>
 </resources>

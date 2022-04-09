@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Date;
 import java.util.HashMap;
 
 
@@ -105,12 +106,14 @@ public class ItemFullContentFragment extends Fragment {
 
         });
         mBuy.setOnClickListener(view ->{
+            String time = new Date().toString();
             HashMap<String, String> pending_order = new HashMap<>();
             pending_order.put("name", mItemName.getText().toString());
             pending_order.put("quantity", "1");
             pending_order.put("rate", mPrice.getText().toString());
             String orderKey = String.valueOf(pending_order.hashCode());
             pending_order.put("order_id", orderKey);
+            pending_order.put("time", time );
             Log.d(TAG, "set_UI: key"+orderKey);
             ref.child(user.getUid()).child("pending_orders")
                     .child(orderKey).setValue(pending_order)

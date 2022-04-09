@@ -20,7 +20,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private MaterialButton logOutButton,accountButton, changePassword, contactUsButton;
+    private MaterialButton logOutButton,accountButton, changePassword, contactUsButton, orderButton;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -36,7 +36,7 @@ public class SettingsFragment extends Fragment {
         accountButton = v.findViewById(R.id.account_settings);
         changePassword = v.findViewById(R.id.changePasswordButton);
         contactUsButton = v.findViewById(R.id.customerCare_button);
-
+        orderButton = v.findViewById(R.id.order_history);
         setUI();
 
         return v;
@@ -64,14 +64,16 @@ public class SettingsFragment extends Fragment {
                     .replace(R.id.fragmentContainerView, new UpdatePasswordFragment())
                     .commit();
         });
-        contactUsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, new ContactUsFragment())
-                        .commit();
-            }
+        contactUsButton.setOnClickListener(view -> getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainerView, new ContactUsFragment())
+                .commit()
+        );
+        orderButton.setOnClickListener(view -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, new OrderFragment())
+                    .commit();
         });
 
     }

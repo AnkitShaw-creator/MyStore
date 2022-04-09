@@ -19,8 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mystore.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.android.material.textview.MaterialTextView;
@@ -31,23 +29,24 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import Order.OrderAdapter;
 import Order.order;
 
-public class OrderFragment extends Fragment implements OrderAdapter.orderClickListener {
+public class CartFragment extends Fragment implements OrderAdapter.orderClickListener {
 
-    private static final String TAG = "OrderFragment";
+    private static final String TAG = "CartFragment";
+    private static boolean ORDER_ADDED = false ;
     private static int TOTAL;
-    private static boolean HAS_CHILDS = false;
+    private static boolean HAS_CHILDREN = false;
     private ShapeableImageView noOrderIV;
     private MaterialTextView noOrderTV,totalTV;
-    private RecyclerView orderList;
+
+    private RecyclerView cartList;
     private ConstraintLayout orderTotal;
     private MaterialButton placeOrder;
 
@@ -59,7 +58,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
     private OrderAdapter mAdapter;
 
-    public OrderFragment() {
+    public CartFragment() {
         // Required empty public constructor
     }
 
@@ -72,16 +71,16 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_order, container, false);
+        View v = inflater.inflate(R.layout.fragment_cart, container, false);
         noOrderIV = v.findViewById(R.id.no_order_ImageView);
         noOrderIV.setVisibility(View.INVISIBLE);
         noOrderTV = v.findViewById(R.id.no_order_textView);
         noOrderTV.setVisibility(View.INVISIBLE);
 
-        orderList = v.findViewById(R.id.order_List);
-        orderList.setVisibility(View.INVISIBLE);
-        orderList.setHasFixedSize(true);
-        orderList.setLayoutManager(new LinearLayoutManager(getContext()));
+        cartList = v.findViewById(R.id.cart_list);
+        cartList.setVisibility(View.INVISIBLE);
+        cartList.setHasFixedSize(true);
+        cartList.setLayoutManager(new LinearLayoutManager(getContext()));
 
         orderTotal = v.findViewById(R.id.order_total);
         orderTotal.setVisibility(View.INVISIBLE);
@@ -101,17 +100,24 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
     }
 
     private void setUI() {
-        orderList.setVisibility(View.INVISIBLE);
+        if(ORDER_ADDED){
+            noOrderTV.setVisibility(View.VISIBLE);
+            noOrderIV.setVisibility(View.VISIBLE);
+            cartList.setVisibility(View.INVISIBLE);
+            orderTotal.setVisibility(View.INVISIBLE);
+        }
+        cartList.setVisibility(View.INVISIBLE);
         mAdapter = new OrderAdapter(pendingOrder, this);
         ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 //Log.d(TAG, "onChildAdded: "+snapshot.getChildrenCount());
                 if(snapshot.hasChildren()){
-                    HAS_CHILDS = true;
+                    HAS_CHILDREN = true;
+                    ORDER_ADDED= false;
                     noOrderIV.setVisibility(View.INVISIBLE);
                     noOrderTV.setVisibility(View.INVISIBLE);
-                    orderList.setVisibility(View.VISIBLE);
+                    cartList.setVisibility(View.VISIBLE);
                     orderTotal.setVisibility(View.VISIBLE);
                     //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                     order o = snapshot.getValue(order.class);
@@ -125,7 +131,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
                     mAdapter.notifyDataSetChanged();
                 }
                 else{
-                    orderList.setVisibility(View.INVISIBLE);
+                    cartList.setVisibility(View.INVISIBLE);
                     orderTotal.setVisibility(View.INVISIBLE);
                     noOrderIV.setVisibility(View.VISIBLE);
                     noOrderTV.setVisibility(View.VISIBLE);
@@ -135,10 +141,10 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 if(snapshot.hasChildren()){
-                    HAS_CHILDS=true;
+                    HAS_CHILDREN =true;
                     noOrderIV.setVisibility(View.INVISIBLE);
                     noOrderTV.setVisibility(View.INVISIBLE);
-                    orderList.setVisibility(View.VISIBLE);
+                    cartList.setVisibility(View.VISIBLE);
                     orderTotal.setVisibility(View.VISIBLE);
                     //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                     order o = snapshot.getValue(order.class);
@@ -152,7 +158,7 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
                     mAdapter.notifyDataSetChanged();
                 }
                 else{
-                    orderList.setVisibility(View.INVISIBLE);
+                    cartList.setVisibility(View.INVISIBLE);
                     orderTotal.setVisibility(View.INVISIBLE);
                     noOrderIV.setVisibility(View.VISIBLE);
                     noOrderTV.setVisibility(View.VISIBLE);
@@ -175,8 +181,8 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
             }
         });
 
-        if(!HAS_CHILDS){
-            orderList.setVisibility(View.INVISIBLE);
+        if(!HAS_CHILDREN){
+            cartList.setVisibility(View.INVISIBLE);
             orderTotal.setVisibility(View.INVISIBLE);
             noOrderIV.setVisibility(View.VISIBLE);
             noOrderTV.setVisibility(View.VISIBLE);
@@ -184,35 +190,27 @@ public class OrderFragment extends Fragment implements OrderAdapter.orderClickLi
 
         //Log.d(TAG, "setUI: "+pendingOrder.get(0).getName());
         mAdapter = new OrderAdapter(pendingOrder, this);
-        orderList.swapAdapter(mAdapter, true);
+        cartList.swapAdapter(mAdapter, true);
         TOTAL=0;
 
         placeOrder.setOnClickListener(view -> {
-            ref.child("pending_orders").addChildEventListener(new ChildEventListener() {
+            ref.child("pending_orders").addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                    order o = snapshot.getValue(order.class);
-                    ref2.child("orders").setValue(o.toMap());
-                }
-
-                @Override
-                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-                }
-
-                @Override
-                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-                }
-
-                @Override
-                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChildren()){
+                        for (DataSnapshot s: snapshot.getChildren()) {
+                            order o = s.getValue(order.class);
+                            ref2.child("orders").child(o.getOrder_id()).setValue(o.toMap());
+                            ref.child("pending_orders").child(o.getOrder_id()).removeValue();
+                        }
+                        ORDER_ADDED = true;
+                        setUI();
+                    }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    Log.e(TAG, "onCancelled: ", error.toException());
                 }
             });
         });
