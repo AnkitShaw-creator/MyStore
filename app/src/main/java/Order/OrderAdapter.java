@@ -67,7 +67,6 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.orderViewHol
         holder.orderRate.setText(MessageFormat.format("Rate: {0}", Rate));
         holder.orderImage.setImageResource(R.drawable.ic_app_logo);
         holder.orderItemTotal.setText(MessageFormat.format("Total: {0}", String.valueOf(rate * quantity)));
-        //holder.setIsRecyclable(true);
     }
 
     @Override
