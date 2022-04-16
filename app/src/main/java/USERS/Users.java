@@ -1,10 +1,21 @@
 package USERS;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Users {
 
-    String address, email, name, phone;
+    String address, email, image, name, phone;
 
     public Users(){}
+
+    public Users(String address, String email, String image, String name, String phone) {
+        this.address = address;
+        this.email = email;
+        this.image = image;
+        this.name = name;
+        this.phone = phone;
+    }
 
     public Users(String address, String email, String name, String phone) {
         this.address = address;
@@ -44,4 +55,24 @@ public class Users {
     public void setPhone(String phone) {
         this.phone = phone;
     }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Map<String, String> toMap(){
+        Map<String, String> newMap = new HashMap<>();
+        newMap.put("image", image);
+        newMap.put("name", name);
+        newMap.put("address",address);
+        newMap.put("phone",phone);
+        newMap.put("email",email);
+
+        return newMap;
+    }
+
 }

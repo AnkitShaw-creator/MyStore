@@ -37,7 +37,8 @@
         android:layout_height="150dp"
         android:layout_marginTop="40dp"
         android:src="@drawable/ic_person"
-        app:civ_circle_background_color="#673AB7"
+        app:civ_border_color="#00BFA5"
+        app:civ_border_width="2dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -181,5 +182,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/scrollView2" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/change_image_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:src="@drawable/ic_edit"
+        app:layout_constraintBottom_toBottomOf="@+id/user_account_profile_image"
+        app:layout_constraintEnd_toEndOf="@+id/user_account_profile_image" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

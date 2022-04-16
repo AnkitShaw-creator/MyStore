@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.mystore.R;
-import com.example.mystore.ui.ContentActivity;
 import com.example.mystore.ui.MainActivity;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,6 +47,7 @@ public class SettingsFragment extends Fragment {
             FirebaseUser user = mAuth.getCurrentUser();
             if(user == null){
                 Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+                mainIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(mainIntent);
 
             }

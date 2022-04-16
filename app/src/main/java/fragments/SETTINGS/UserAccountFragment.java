@@ -21,16 +21,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import USERS.Users;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAccountFragment extends Fragment {
 
     public static final String TAG = "UserAccountFragment";
 
-    private FloatingActionButton backButton, editButton;
+    private FloatingActionButton backButton, editButton, changeImage;
     private EditText mName, mAddress, mEmail, mPhone;
     private MaterialButton mSave, mRevert;
+    private CircleImageView userProfileImage;
+
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference ref;
@@ -56,6 +61,11 @@ public class UserAccountFragment extends Fragment {
 
         backButton = v.findViewById(R.id.back_setting_fab);
         editButton = v.findViewById(R.id.edit_fab);
+        changeImage = v.findViewById(R.id.change_image_button);
+        changeImage.setVisibility(View.INVISIBLE);
+
+        userProfileImage = v.findViewById(R.id.user_account_profile_image);
+        userProfileImage.setEnabled(false);
         mName = v.findViewById(R.id.user_account_FullName);
         mName.setEnabled(false);
         mAddress = v.findViewById(R.id.user_account_Address);
@@ -84,6 +94,21 @@ public class UserAccountFragment extends Fragment {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Users user = snapshot.getValue(Users.class);
                 Log.d(TAG, "onDataChange: user"+user.getName());
+                String imageURL = user.getImage();
+                Log.d(TAG, "onDataChange: adding image: "+imageURL);
+                Picasso.get().load(imageURL).placeholder(R.drawable.ic_person)
+                        .into(userProfileImage, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Log.d(TAG, "onSuccess: Picasso"+imageURL);
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        Picasso.get().load(imageURL).placeholder(R.drawable.ic_person)
+                                .into(userProfileImage);
+                    }
+                });
                 mName.setText(user.getName());
                 mAddress.setText(user.getAddress());
                 mEmail.setText(user.getEmail());

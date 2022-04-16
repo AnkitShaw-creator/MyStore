@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar mProgressBar;
     private FirebaseAuth mAuth;
     public static final String DATABASE_URL = "https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app";
-
+    public static final String STORAGE_URL = "gs://deft-apparatus-339005.appspot.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
