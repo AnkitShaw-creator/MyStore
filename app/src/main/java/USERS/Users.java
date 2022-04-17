@@ -64,8 +64,8 @@ public class Users {
         this.image = image;
     }
 
-    public Map<String, String> toMap(){
-        Map<String, String> newMap = new HashMap<>();
+    public Map<String, Object> toMap(){
+        Map<String, Object> newMap = new HashMap<>();
         newMap.put("image", image);
         newMap.put("name", name);
         newMap.put("address",address);

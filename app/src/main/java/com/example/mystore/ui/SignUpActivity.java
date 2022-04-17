@@ -127,9 +127,6 @@ public class SignUpActivity extends AppCompatActivity {
         String phoneNumber = mPhoneNumber.getText().toString();
         final String[] image_download_uri = new String[1];
 
-
-
-
         mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this,new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -158,7 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                                 Log.d(LOG_TAG, "onComplete: image url "+url);
                                 Users newUser = new Users(address, email, url, userName, phoneNumber);
 
-                                Map<String, String> user = new HashMap<>();
+                                Map<String, Object> user = new HashMap<>();
                                 user = newUser.toMap();
                                 String userId = mAuth.getUid();
 

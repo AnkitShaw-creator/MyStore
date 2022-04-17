@@ -1,7 +1,15 @@
 package fragments.SETTINGS;
 
+import static android.app.Activity.RESULT_OK;
+
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
@@ -10,8 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.mystore.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,8 +33,14 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.text.MessageFormat;
+import java.util.Map;
 
 import USERS.Users;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -30,6 +48,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserAccountFragment extends Fragment {
 
     public static final String TAG = "UserAccountFragment";
+    private  Uri IMAGE;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
 
     private FloatingActionButton backButton, editButton, changeImage;
     private EditText mName, mAddress, mEmail, mPhone;
@@ -38,7 +58,9 @@ public class UserAccountFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
+    private FirebaseStorage storage;
     private DatabaseReference ref;
+    private StorageReference storageRef;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -57,7 +79,9 @@ public class UserAccountFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
+        storage = FirebaseStorage.getInstance();
         ref = database.getReference("users");
+        storageRef = storage.getReference().child("photos");
 
         backButton = v.findViewById(R.id.back_setting_fab);
         editButton = v.findViewById(R.id.edit_fab);
@@ -133,6 +157,8 @@ public class UserAccountFragment extends Fragment {
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                userProfileImage.setEnabled(true);
+                changeImage.setVisibility(View.VISIBLE);
                 mName.setEnabled(true);
                 mAddress.setEnabled(true);
                 mPhone.setEnabled(true);
@@ -149,17 +175,89 @@ public class UserAccountFragment extends Fragment {
         mRevert.setOnClickListener(view -> {
             revert_changes();
         });
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if(result.getResultCode() == RESULT_OK){
+                            IMAGE = result.getData().getData();
+                            Log.d(TAG, "onActivityResult: ");
+                            userProfileImage.setImageURI(IMAGE);
+                        }
+                    }
+                }
+        );
+
+
+        changeImage.setOnClickListener(view -> {
+            Intent galleryIntent = new Intent();
+            galleryIntent.setType("image/*");
+            galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+            activityResultLauncher.launch(galleryIntent);
+            change_image();
+        });
     }
+
+    private void change_image() {
+    }
+
 
     private void revert_changes() {
         editButton.setVisibility(View.VISIBLE);
         mSave.setVisibility(View.INVISIBLE);
         mRevert.setVisibility(View.INVISIBLE);
+        changeImage.setVisibility(View.INVISIBLE);
     }
 
     private void save_changes() {
         editButton.setVisibility(View.VISIBLE);
         mSave.setVisibility(View.INVISIBLE);
         mRevert.setVisibility(View.INVISIBLE);
+        changeImage.setVisibility(View.INVISIBLE);
+
+        String name = mName.getText().toString();
+        String phone = mPhone.getText().toString();
+        String address = mAddress.getText().toString();
+        String email = mEmail.getText().toString();
+
+        final StorageReference tempRef = storageRef.child(MessageFormat.format("profile_photos/{0}_profile_pic.jpg", mAuth.getUid()));
+        UploadTask imageTask = tempRef.putFile(IMAGE);
+
+        Task<Uri> imageUploadTask = imageTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if(!task.isSuccessful()){
+                    Log.e(TAG, "then: ", task.getException());
+                    throw task.getException();
+                }
+                return tempRef.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if(task.isSuccessful()){
+                    String url = task.getResult().toString();
+                    Log.d(TAG, "onComplete: changed image url"+url);
+
+                    Users updatedUsers = new Users(address,email, url, name, phone);
+                    Map<String, Object> map = updatedUsers.toMap();
+                    ref.child(mAuth.getCurrentUser().getUid()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getContext(), "User details were updated successfully", Toast.LENGTH_SHORT).show();
+                            }
+                            else{
+                                Toast.makeText(getContext(), "Update failed", Toast.LENGTH_SHORT).show();
+                                Log.e(TAG, "onComplete: ", task.getException() );
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
     }
 }
