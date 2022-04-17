@@ -2,6 +2,8 @@ package fragments.SETTINGS;
 
 import static android.app.Activity.RESULT_OK;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -61,6 +63,8 @@ public class UserAccountFragment extends Fragment {
     private FirebaseStorage storage;
     private DatabaseReference ref;
     private StorageReference storageRef;
+
+    private static boolean updated = false;
 
     public UserAccountFragment() {
         // Required empty public constructor
@@ -124,9 +128,8 @@ public class UserAccountFragment extends Fragment {
                         .into(userProfileImage, new Callback() {
                     @Override
                     public void onSuccess() {
-                        Log.d(TAG, "onSuccess: Picasso"+imageURL);
+                        //Log.d(TAG, "onSuccess: Picasso"+imageURL);
                     }
-
                     @Override
                     public void onError(Exception e) {
                         Picasso.get().load(imageURL).placeholder(R.drawable.ic_person)
@@ -148,15 +151,45 @@ public class UserAccountFragment extends Fragment {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.fragmentContainerView, new SettingsFragment())
-                        .commit();
+                if(!updated) {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerView, new SettingsFragment())
+                            .commit();
+                }
+                if(updated){
+                    Log.e(TAG, "onClick: back button: updates"+ updated );
+                    // show unsaved changes dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+
+                    builder.setTitle("Unsaved changes")
+                            .setMessage("You have changes that are not saved to the database. Would you like to save them first or cancel the changes made?")
+                            .setPositiveButton("Stay in the page", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.cancel();
+                                }
+                            }).setNegativeButton("No, discard the changes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            updated = false;
+                            getParentFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.fragmentContainerView, new SettingsFragment())
+                                    .commit();
+                        }
+                    });
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
             }
         });
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(!updated)
+                    updated = true;
                 userProfileImage.setEnabled(true);
                 changeImage.setVisibility(View.VISIBLE);
                 mName.setEnabled(true);
@@ -169,6 +202,7 @@ public class UserAccountFragment extends Fragment {
         });
 
         mSave.setOnClickListener(view->{
+
             save_changes();
         });
 
