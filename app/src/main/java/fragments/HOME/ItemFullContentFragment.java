@@ -5,6 +5,7 @@ import static com.example.mystore.ui.MainActivity.DATABASE_URL;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -24,11 +25,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 import java.util.HashMap;
+
+import Items.items;
+import fragments.SETTINGS.WishlistFragment;
 
 
 public class ItemFullContentFragment extends Fragment {
@@ -48,7 +53,7 @@ public class ItemFullContentFragment extends Fragment {
     private String itemTitle;
 
     private static final String TAG ="ItemFullContentFragment";
-
+    private String p;
     public ItemFullContentFragment() {
         // Required empty public constructor
     }
@@ -59,6 +64,7 @@ public class ItemFullContentFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_item_full_content, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
+        p = viewModel.getParent();
 
         itemImage= v.findViewById(R.id.item_imageView);
         mItemName = v.findViewById(R.id.detail_item_name);
@@ -78,7 +84,6 @@ public class ItemFullContentFragment extends Fragment {
            ref = database.getReference("users");
            set_UI();
        }
-
         return  v;
     }
 
@@ -91,19 +96,32 @@ public class ItemFullContentFragment extends Fragment {
             mDescription.setText(item.getDescription());
         });
 
-
+        mWishList.setText(getButtonText());
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getParentFragmentManager()
-                        .beginTransaction()
-                        .replace(R.id.detailFragmentContainer, new ItemListFragment(),null)
-                        .commit();
+                if(p.equals("ItemList")) {
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.detailFragmentContainer, new ItemListFragment(), null)
+                            .commit();
+                }
+                if(p.equals("Wishlist")){
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerView, new WishlistFragment(), null)
+                            .commit();
+                }
 
             }
         });
         mWishList.setOnClickListener(view ->{
-
+            if(p.equals("ItemList")) {
+                add_to_wishlist();
+            }
+            if(p.equals("Wishlist")){
+               remove_from_wishlist();
+            }
         });
         mBuy.setOnClickListener(view ->{
             String time = new Date().toString();
@@ -121,7 +139,7 @@ public class ItemFullContentFragment extends Fragment {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
-                                Toast.makeText(getContext(), "Item added", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Item added to cart", Toast.LENGTH_SHORT).show();
                             }
                             else{
                                 Log.e(TAG, "onComplete: ", task.getException());
@@ -130,5 +148,46 @@ public class ItemFullContentFragment extends Fragment {
                     });
         });
 
+    }
+
+    private String getButtonText() {
+        if(p.equals("ItemList")) {
+            return "Add to wishlist";
+        }
+        if(p.equals("Wishlist")){
+            return "Remove from wishlist";
+        }
+        return null;
+    }
+
+    private void add_to_wishlist(){
+        items i = viewModel.getItem().getValue();
+        ref.child(user.getUid()).child("wishlist")
+                .child(String.valueOf(i.hashCode())).setValue(i).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    Toast.makeText(getContext(), "Item added to wishlist", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Log.e(TAG, "onComplete: ", task.getException());
+                }
+            }
+        });
+    }
+    private void remove_from_wishlist(){
+        items i = viewModel.getItem().getValue();
+        ref.child(user.getUid()).child("wishlist")
+                .child(String.valueOf(i.hashCode())).setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainerView, new WishlistFragment(), null)
+                            .commit();
+                }
+            }
+        });
     }
 }

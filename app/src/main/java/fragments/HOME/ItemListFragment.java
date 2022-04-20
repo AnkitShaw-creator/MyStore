@@ -1,5 +1,7 @@
 package fragments.HOME;
 
+import static com.example.mystore.ui.MainActivity.DATABASE_URL;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -59,7 +61,7 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
 
          mAuth = FirebaseAuth.getInstance();
          if(mAuth.getCurrentUser() != null){
-             database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
+             database = FirebaseDatabase.getInstance(DATABASE_URL);
              ref = database.getReference();
          }
          mAdapter = new itemAdapter(itemList,this);
@@ -67,7 +69,7 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
          ref.child("items").addChildEventListener(new ChildEventListener() {
              @Override
              public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                 Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                 //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                  items currentItem = snapshot.getValue(items.class);
                  itemList.add(currentItem);
                  mAdapter.notifyDataSetChanged();
@@ -76,9 +78,10 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
 
              @Override
              public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                 Log.d(TAG, "onChildAdded: "+snapshot.getKey());
+                 //Log.d(TAG, "onChildAdded: "+snapshot.getKey());
                  items currentItem = snapshot.getValue(items.class);
                  itemList.add(currentItem);
+                 mAdapter.notifyDataSetChanged();
 
              }
 
@@ -106,6 +109,7 @@ public class ItemListFragment extends Fragment implements itemAdapter.onItemList
     public void onItemClick(int position) {
         //Log.d(TAG, "onCreateView: size"+itemList.size());
         viewModel.setItem(itemList.get(position));
+        viewModel.setParent("ItemList");
         getParentFragmentManager()
                 .beginTransaction()
                 .replace(R.id.detailFragmentContainer, new ItemFullContentFragment(), null)

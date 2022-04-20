@@ -38,7 +38,7 @@ public class ContentActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .replace(R.id.fragmentContainerView, new HomeFragment(),null)
                                 .commit();
-                        Toast.makeText(ContentActivity.this, "Selected home", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ContentActivity.this, "Selected home", Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     case R.id.nav_orders:{
@@ -46,7 +46,7 @@ public class ContentActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .replace(R.id.fragmentContainerView, CartFragment.class,null)
                                 .commit();
-                        Toast.makeText(ContentActivity.this, "Selected orders", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ContentActivity.this, "Selected orders", Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     case R.id.nav_settings:{
@@ -54,7 +54,7 @@ public class ContentActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .replace(R.id.fragmentContainerView, SettingsFragment.class,null)
                                 .commit();
-                        Toast.makeText(ContentActivity.this, "Selected Settings", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(ContentActivity.this, "Selected Settings", Toast.LENGTH_SHORT).show();
                         return true;
                     }
                     default:

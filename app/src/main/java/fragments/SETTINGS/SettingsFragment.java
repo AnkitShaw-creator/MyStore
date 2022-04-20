@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsFragment extends Fragment {
 
     private FirebaseAuth mAuth;
-    private MaterialButton logOutButton,accountButton, changePassword, contactUsButton, orderButton;
+    private MaterialButton logOutButton,accountButton, changePassword, contactUsButton, orderButton, wishlistButton;
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -36,6 +36,7 @@ public class SettingsFragment extends Fragment {
         changePassword = v.findViewById(R.id.changePasswordButton);
         contactUsButton = v.findViewById(R.id.customerCare_button);
         orderButton = v.findViewById(R.id.order_history);
+        wishlistButton = v.findViewById(R.id.wishlist);
         setUI();
 
         return v;
@@ -73,6 +74,12 @@ public class SettingsFragment extends Fragment {
             getParentFragmentManager()
                     .beginTransaction()
                     .replace(R.id.fragmentContainerView, new OrderFragment())
+                    .commit();
+        });
+        wishlistButton.setOnClickListener(view -> {
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.fragmentContainerView, new WishlistFragment())
                     .commit();
         });
 

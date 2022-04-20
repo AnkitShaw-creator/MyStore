@@ -57,7 +57,7 @@ public class HomeFragment extends Fragment {
         database = FirebaseDatabase.getInstance("https://deft-apparatus-339005-default-rtdb.asia-southeast1.firebasedatabase.app");
         //added the URl of the database location as was getting a warning of database being in a different region
         ref = database.getReference();
-        Log.d(TAG, "onCreateView:"+ref.child("items"));
+        //Log.d(TAG, "onCreateView:"+ref.child("items"));
 
         getChildFragmentManager()
                 .beginTransaction()

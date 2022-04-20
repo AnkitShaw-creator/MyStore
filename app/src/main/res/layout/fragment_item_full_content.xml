@@ -75,7 +75,7 @@
                     android:layout_weight="1"
                     android:backgroundTint="#FF5722"
                     android:fontFamily="@font/bree_serif"
-                    android:text="@string/add_to_wishlist"
+                    tools:text="@string/add_to_wishlist"
                     android:textColor="#212121"
                     app:icon="@drawable/ic_favourite" />
 

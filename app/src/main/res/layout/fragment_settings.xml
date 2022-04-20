@@ -7,6 +7,19 @@
     tools:context="fragments.SETTINGS.SettingsFragment">
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/wishlist"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/bree_serif"
+        android:text="Wishlist"
+        app:backgroundTint="#43A047"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_history" />
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/account_settings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,7 +48,7 @@
         android:layout_marginTop="10dp"
         android:fontFamily="@font/bree_serif"
         android:text="@string/change_password"
-        app:backgroundTint="#43A047"
+        app:backgroundTint="#F44336"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"

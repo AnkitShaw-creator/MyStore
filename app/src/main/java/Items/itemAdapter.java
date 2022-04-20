@@ -37,7 +37,7 @@ public class itemAdapter extends RecyclerView.Adapter<itemAdapter.itemViewHolder
     @Override
     public void onBindViewHolder(@NonNull itemViewHolder holder, int position) {
         items currentItem = i.get(position);
-        Log.i(LOG_TAG, "onBindViewHolder: "+currentItem.getQuantity());
+        //Log.i(LOG_TAG, "onBindViewHolder: "+currentItem.getQuantity());
         holder.itemImage.setImageResource(R.drawable.ic_icon_order);
         holder.itemName.setText(currentItem.getTitle());
         holder.itemDescription.setText(currentItem.getDescription());
