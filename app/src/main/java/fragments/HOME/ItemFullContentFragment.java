@@ -88,12 +88,14 @@ public class ItemFullContentFragment extends Fragment {
     }
 
     private void set_UI() {
-
+        // TODO need to create a hash function for items and orders
         viewModel.getItem().observe(getViewLifecycleOwner(), item -> {
-            mItemName.setText(item.getTitle());
-            mPrice.setText(item.getPrice());
-            mQuantity.setText(item.getQuantity());
-            mDescription.setText(item.getDescription());
+            if(item != null) {
+                mItemName.setText(item.getTitle());
+                mPrice.setText(item.getPrice());
+                mQuantity.setText(item.getQuantity());
+                mDescription.setText(item.getDescription());
+            }
         });
 
         mWishList.setText(getButtonText());
@@ -163,9 +165,10 @@ public class ItemFullContentFragment extends Fragment {
     private void add_to_wishlist(){
         items i = viewModel.getItem().getValue();
         ref.child(user.getUid()).child("wishlist")
-                .child(String.valueOf(i.hashCode())).setValue(i).addOnCompleteListener(new OnCompleteListener<Void>() {
+                .child(String.valueOf(i.getId())).setValue(i).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                Log.d(TAG, "onComplete: "+i.getId());
                 if(task.isSuccessful()){
                     Toast.makeText(getContext(), "Item added to wishlist", Toast.LENGTH_SHORT).show();
                 }
@@ -178,14 +181,19 @@ public class ItemFullContentFragment extends Fragment {
     private void remove_from_wishlist(){
         items i = viewModel.getItem().getValue();
         ref.child(user.getUid()).child("wishlist")
-                .child(String.valueOf(i.hashCode())).setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                .child(String.valueOf(i.getId())).removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
+                    Log.d(TAG, "onComplete: "+i.getId());
+                    viewModel.setItem(null);
                     getParentFragmentManager()
                             .beginTransaction()
                             .replace(R.id.fragmentContainerView, new WishlistFragment(), null)
                             .commit();
+                }
+                else{
+                    Log.e(TAG, "onComplete: ", task.getException() );
                 }
             }
         });

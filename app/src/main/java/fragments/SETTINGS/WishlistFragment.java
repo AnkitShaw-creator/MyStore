@@ -62,7 +62,7 @@ public class WishlistFragment extends Fragment implements itemAdapter.onItemList
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+
         View v = inflater.inflate(R.layout.fragment_wishlist, container, false);
         user = FirebaseAuth.getInstance().getCurrentUser();
         ref = FirebaseDatabase.getInstance(DATABASE_URL).getReference().child("users").child(user.getUid());
@@ -76,11 +76,11 @@ public class WishlistFragment extends Fragment implements itemAdapter.onItemList
 
     private void setUI() {
         wishlist.setLayoutManager(new LinearLayoutManager(getContext()));
-
         ref.child("wishlist").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 items I = snapshot.getValue(items.class);
+                I.setId(String.valueOf(I.hashCode()));
                 i.add(I);
                 adapter.notifyDataSetChanged();
             }
@@ -116,7 +116,6 @@ public class WishlistFragment extends Fragment implements itemAdapter.onItemList
 
     @Override
     public void onItemClick(int position) {
-        Log.d(TAG, "onItemClick: ");
         viewModel.setItem(i.get(position));
         viewModel.setParent("Wishlist");
         getParentFragmentManager()

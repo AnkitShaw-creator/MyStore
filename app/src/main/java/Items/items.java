@@ -1,15 +1,19 @@
 package Items;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class items {
 
-    String description, price, quantity, title;
+    String description, price, quantity, title,id;
     public items(){}
 
-    public items(String description, String price, String quantity, String title){
+    public items(String description, String price, String quantity, String title, String id){
         this.description = description;
         this.price = price;
         this.quantity = quantity;
         this.title = title;
+        this.id = id;
     }
 
     public String getDescription() {
@@ -43,4 +47,22 @@ public class items {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Map<String, Object> toMap(){
+        Map<String, Object> map = new HashMap<>();
+        return map;
+    }
+
+    public String HashCode(){
+        return null;
+    }
+
 }

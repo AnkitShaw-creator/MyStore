@@ -1,5 +1,6 @@
 package fragments.SETTINGS;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.mystore.R;
+import com.example.mystore.ui.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -58,31 +60,38 @@ public class UpdatePasswordFragment extends Fragment {
     private void setUI() {
 
         if(user != null) {
-            String email = user.getEmail();
+            final String email = user.getEmail();
             mEmail.setText(email);
-            String oldPassword = String.valueOf(mOldPassword.getText());
-            String newPassword = String.valueOf(mNewPassword.getText());
-
-           // TODO: The code here current don't work, look for a solution.
 
             mUpdate.setOnClickListener(view -> {
+                final String oldPassword = String.valueOf(mOldPassword.getText());
+                final String newPassword = String.valueOf(mNewPassword.getText());
+                Log.d(TAG, "setUI: "+oldPassword);
+                Log.d(TAG, "setUI: "+newPassword);
                 if(!email.equals("") && !oldPassword.equals("")) {
                     userCred = EmailAuthProvider.getCredential(email, oldPassword);
+
                     user.reauthenticate(userCred).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            Log.d(TAG, "onComplete: Re-authentication successful");
                             if (task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: Re-authentication successful");
                                 user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
+                                        Log.d(TAG, "onComplete:  password updated");
                                         if(task.isSuccessful()) {
+                                            Toast.makeText(getContext(), "Password was updated", Toast.LENGTH_SHORT).show();
+                                            mAuth.signOut();
+                                            logOut();
                                             mAuth.sendPasswordResetEmail(email);
                                             Log.d(TAG, "onComplete: Password changed");
-                                            Toast.makeText(getContext(), "Password was updated", Toast.LENGTH_SHORT).show();
+
                                         }
                                         else{
-                                            Log.e(TAG, "onComplete: Password  was changed", task.getException());
                                             Toast.makeText(getContext(), "Password was not updated", Toast.LENGTH_SHORT).show();
+                                            Log.e(TAG, "onComplete: Password  was changed", task.getException());
                                         }
                                     }
                                 });
@@ -94,10 +103,21 @@ public class UpdatePasswordFragment extends Fragment {
                         }
                     });
                 }
+                else{
+                    Toast.makeText(getContext(), "Password was not updated", Toast.LENGTH_SHORT).show();
+                }
             });
         }
         else{
             Log.e(TAG, "setUI:  User not found" );
+        }
+    }
+
+    private void logOut() {
+        if(mAuth.getCurrentUser() == null){
+            Intent signInIntent = new Intent(getActivity(), MainActivity.class);
+            signInIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(signInIntent);
         }
     }
 }
