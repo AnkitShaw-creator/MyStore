@@ -66,21 +66,19 @@ public class UpdatePasswordFragment extends Fragment {
             mUpdate.setOnClickListener(view -> {
                 final String oldPassword = String.valueOf(mOldPassword.getText());
                 final String newPassword = String.valueOf(mNewPassword.getText());
-                Log.d(TAG, "setUI: "+oldPassword);
-                Log.d(TAG, "setUI: "+newPassword);
+                //Log.d(TAG, "setUI: "+oldPassword);
+                //Log.d(TAG, "setUI: "+newPassword);
                 if(!email.equals("") && !oldPassword.equals("")) {
                     userCred = EmailAuthProvider.getCredential(email, oldPassword);
-
                     user.reauthenticate(userCred).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            Log.d(TAG, "onComplete: Re-authentication successful");
+                            //Log.d(TAG, "onComplete: Re-authentication successful");
                             if (task.isSuccessful()) {
-                                Log.d(TAG, "onComplete: Re-authentication successful");
+                                //Log.d(TAG, "onComplete: Re-authentication successful");
                                 user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
-                                        Log.d(TAG, "onComplete:  password updated");
                                         if(task.isSuccessful()) {
                                             Toast.makeText(getContext(), "Password was updated", Toast.LENGTH_SHORT).show();
                                             mAuth.signOut();
