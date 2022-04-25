@@ -66,26 +66,22 @@ public class UpdatePasswordFragment extends Fragment {
             mUpdate.setOnClickListener(view -> {
                 final String oldPassword = String.valueOf(mOldPassword.getText());
                 final String newPassword = String.valueOf(mNewPassword.getText());
-                //Log.d(TAG, "setUI: "+oldPassword);
-                //Log.d(TAG, "setUI: "+newPassword);
+
                 if(!email.equals("") && !oldPassword.equals("")) {
                     userCred = EmailAuthProvider.getCredential(email, oldPassword);
                     user.reauthenticate(userCred).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            //Log.d(TAG, "onComplete: Re-authentication successful");
+
                             if (task.isSuccessful()) {
-                                //Log.d(TAG, "onComplete: Re-authentication successful");
+
                                 user.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if(task.isSuccessful()) {
                                             Toast.makeText(getContext(), "Password was updated", Toast.LENGTH_SHORT).show();
-                                            mAuth.signOut();
                                             logOut();
-                                            mAuth.sendPasswordResetEmail(email);
                                             Log.d(TAG, "onComplete: Password changed");
-
                                         }
                                         else{
                                             Toast.makeText(getContext(), "Password was not updated", Toast.LENGTH_SHORT).show();
@@ -112,6 +108,7 @@ public class UpdatePasswordFragment extends Fragment {
     }
 
     private void logOut() {
+        mAuth.signOut();
         if(mAuth.getCurrentUser() == null){
             Intent signInIntent = new Intent(getActivity(), MainActivity.class);
             signInIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

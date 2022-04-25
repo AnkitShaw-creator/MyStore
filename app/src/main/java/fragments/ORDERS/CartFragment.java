@@ -33,9 +33,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Order.OrderAdapter;
 import Order.order;
+import generate_hash.ValueHash;
 
 public class CartFragment extends Fragment implements OrderAdapter.orderClickListener {
 
@@ -194,13 +196,16 @@ public class CartFragment extends Fragment implements OrderAdapter.orderClickLis
         TOTAL=0;
 
         placeOrder.setOnClickListener(view -> {
+            String date = new Date().toString();
+            String hash = new ValueHash(date).getValue();
             ref.child("pending_orders").addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.hasChildren()){
                         for (DataSnapshot s: snapshot.getChildren()) {
                             order o = s.getValue(order.class);
-                            ref2.child("orders").child(o.getOrder_id()).setValue(o.toMap());
+                            Log.d(TAG, "onDataChange: HASH GENERATED: "+hash);
+                            ref2.child("orders").child(hash).child(o.getOrder_id()).setValue(o.toMap());
                             ref.child("pending_orders").child(o.getOrder_id()).removeValue();
                         }
                         ORDER_ADDED = true;

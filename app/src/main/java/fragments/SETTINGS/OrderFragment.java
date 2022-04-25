@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import Order.OrderAdapter;
 import Order.order;
 
+    //TODO: Update the code in this file. Now the orders would be shown depending on the time they were placed,
+    // and the actual order would be shown in a different list
+    // group of order -> single order
 
 public class OrderFragment extends Fragment implements OrderAdapter.orderClickListener {
 

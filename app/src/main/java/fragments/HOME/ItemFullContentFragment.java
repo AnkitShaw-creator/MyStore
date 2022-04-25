@@ -31,8 +31,10 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import Items.items;
+import Order.order;
 import fragments.SETTINGS.WishlistFragment;
 
 
@@ -127,16 +129,14 @@ public class ItemFullContentFragment extends Fragment {
         });
         mBuy.setOnClickListener(view ->{
             String time = new Date().toString();
-            HashMap<String, String> pending_order = new HashMap<>();
-            pending_order.put("name", mItemName.getText().toString());
-            pending_order.put("quantity", "1");
-            pending_order.put("rate", mPrice.getText().toString());
-            String orderKey = String.valueOf(pending_order.hashCode());
-            pending_order.put("order_id", orderKey);
-            pending_order.put("time", time );
-            Log.d(TAG, "set_UI: key"+orderKey);
+            String name = mItemName.getText().toString();
+            String quantity = "1";
+            String rate = mPrice.getText().toString();
+            order o = new order(name, quantity, rate, time);
+            Map<String, Object> pending_order = o.toMap();
+            //Log.d(TAG, "set_UI: key"+orderKey);
             ref.child(user.getUid()).child("pending_orders")
-                    .child(orderKey).setValue(pending_order)
+                    .child(o.getOrder_id()).setValue(pending_order)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
