@@ -1,36 +1,25 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:circularflow_radiusInDP="8dp"
     tools:context="fragments.HOME.ItemFullContentFragment">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/back_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:contentDescription="@string/back"
-        android:focusable="true"
-        android:src="@drawable/ic_arrow_back"
-        app:backgroundTint="#009688"
-        app:layout_constraintBottom_toTopOf="@+id/scrollview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ImageContrastCheck,ImageContrastCheck"/>
 
     <ScrollView
+        android:id="@+id/scrollview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/scrollview">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <TextView
                 android:id="@+id/detail_item_name"
                 android:layout_width="match_parent"
@@ -72,24 +61,19 @@
                     android:id="@+id/wishListButton"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="5dp"
                     android:layout_weight="1"
                     android:backgroundTint="#FF5722"
                     android:fontFamily="@font/bree_serif"
-                    tools:text="@string/add_to_wishlist"
                     android:textColor="#212121"
-                    app:icon="@drawable/ic_favourite" />
-
-                <androidx.constraintlayout.widget.Barrier
-                    android:layout_width="20dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:backgroundTint="#6200EA"
-                    app:barrierDirection="left" />
+                    app:icon="@drawable/ic_favourite"
+                    tools:text="@string/add_to_wishlist" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/cartButton"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
                     android:layout_weight="1"
                     android:backgroundTint="#8BC34A"
                     android:fontFamily="@font/bree_serif"
@@ -165,6 +149,7 @@
                 android:layout_marginEnd="5dp"
                 android:background="#F14747"
                 android:elevation="20dp"
+                android:ellipsize="marquee"
                 android:fontFamily="@font/bree_serif"
                 android:gravity="center"
                 android:padding="10dp"
@@ -177,6 +162,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/details_table" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/back_fab"
+                android:layout_width="wrap_content"
+                android:layout_height="56dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:contentDescription="@string/back"
+                android:focusable="true"
+                android:src="@drawable/ic_arrow_back"
+                app:backgroundTint="#009688"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ImageContrastCheck,ImageContrastCheck" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

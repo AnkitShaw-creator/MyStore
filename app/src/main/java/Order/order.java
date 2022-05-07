@@ -11,9 +11,18 @@ import generate_hash.ValueHash;
 
 public class order {
     private static final String TAG = "order";
-    public String name,quantity,rate,order_id, time;
+    public String address,name,payment, quantity,rate,order_id, time;
 
     public order() {}
+
+    public order(String address, String name, String payment, String quantity, String rate, String time) {
+        this.address = address;
+        this.name = name;
+        this.payment = payment;
+        this.quantity = quantity;
+        this.rate = rate;
+        this.time = time;
+    }
 
     public order(String name, String quantity, String rate, String order_id, String time) {
         this.name = name;

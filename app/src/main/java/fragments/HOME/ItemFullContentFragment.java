@@ -14,6 +14,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +49,7 @@ public class ItemFullContentFragment extends Fragment {
     private MaterialTextView error_message;
 
     private itemViewModel viewModel;
+    private ScrollView scrollView;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -67,7 +70,7 @@ public class ItemFullContentFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_item_full_content, container, false);
         viewModel = new ViewModelProvider(requireActivity()).get(itemViewModel.class);
         p = viewModel.getParent();
-
+        scrollView = v.findViewById(R.id.scrollview);
         itemImage= v.findViewById(R.id.item_imageView);
         mItemName = v.findViewById(R.id.detail_item_name);
         mWishList = v.findViewById(R.id.wishListButton);
@@ -128,6 +131,7 @@ public class ItemFullContentFragment extends Fragment {
             }
         });
         mBuy.setOnClickListener(view ->{
+            
             String time = new Date().toString();
             String name = mItemName.getText().toString();
             String quantity = "1";
@@ -151,6 +155,45 @@ public class ItemFullContentFragment extends Fragment {
         });
 
     }
+
+    /**private String showOrderQuantityDialog() {
+        final String[] s = {"1"};
+        scrollView.setAlpha(0.5F);
+        scrollView.setFocusable(false);
+        quantitySelector.setVisibility(View.VISIBLE);
+        quantitySelector.setAlpha(1);
+        max.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int q = Integer.parseInt(inputQuantity.getText().toString()) + 1;
+                inputQuantity.setText(String.valueOf(q));
+            }
+        });
+
+        min.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int q = Integer.parseInt(inputQuantity.getText().toString()) - 1;
+                inputQuantity.setText(String.valueOf(q));
+            }
+        });
+        saveQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                s[0] = inputQuantity.getText().toString();
+                quantitySelector.setVisibility(View.INVISIBLE);
+
+            }
+        });
+        cancelQuantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                scrollView.setVisibility(View.VISIBLE);
+                quantitySelector.setVisibility(View.INVISIBLE);
+            }
+        });
+        return s[0];
+    }**/
 
     private String getButtonText() {
         if(p.equals("ItemList")) {
